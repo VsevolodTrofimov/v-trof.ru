@@ -1,0 +1,37 @@
+{
+  "name": "v-trof.ru",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "set NODE_ENV=development&& cd __config__ && node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "build-test": "set NODE_ENV=development&& cd __config__ && node ../node_modules/webpack/bin/webpack",
+    "build": "set NODE_ENV=production&& cd __config__ && node ../node_modules/webpack/bin/webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pixi.js": "^4.5.3",
+    "preact": "^8.1.0",
+    "preact-router": "^2.5.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "css-loader": "^0.28.4",
+    "extract-text-webpack-plugin": "^2.1.2",
+    "html-webpack-plugin": "^2.29.0",
+    "postcss-cssnext": "^3.0.0",
+    "postcss-csso": "^2.0.0",
+    "postcss-import": "^10.0.0",
+    "postcss-loader": "^2.0.6",
+    "preact-svg-loader": "^0.2.0",
+    "universal-alias-loader": "^1.0.1",
+    "webpack": "^3.1.0",
+    "webpack-bundle-analyzer": "^2.8.2",
+    "webpack-dev-server": "^2.5.1",
+    "webpack-runtime-analyzer": "^1.5.0"
+  }
+}

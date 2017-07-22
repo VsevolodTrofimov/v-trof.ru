@@ -1,0 +1,9 @@
+.PixiContainer {
+    width: 500px;
+}
+
+.PixiContainerText {
+    font-family: "Open Sans";
+    font-size: 29px;
+    text-align: center;
+}
