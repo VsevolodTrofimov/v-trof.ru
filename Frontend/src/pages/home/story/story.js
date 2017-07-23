@@ -6,29 +6,34 @@ import styles from './story.css'
 
 import act0 from './acts/0'
 
+
+const antialias = 2
 const context = {
     props: {
-        numberOfParticles: 10,
+        numberOfParticles: 20,
         
         lapPeriod: 500,
         lapsQuantity: 5,
 
-        width: 300 * 2,
-        height: 300 * 2,
+        width: 300 * antialias,
+        height: 300 * antialias,
 
-        distance: 207 * 2,
+        distance: 207 * antialias,
 
-        padding: 30 * 2,
+        padding: 30 * antialias,
         
-        force: 1,
+        speedFactor: 10 ** (-3),
+        randomFactor: 0 * antialias,
         
-        circleR: 47 * 2,
-        mainR: 10 * 2,
-        spreadR: 10 * 2,
+        circleR: 47 * antialias,
+        particleR: 2 * antialias,
+        mainR: 10 * antialias,
+        spreadR: 23 * antialias,
 
-        arrowSize: 7 * 2,
+        arrowSize: 7 * antialias,
 
-        lineStyle: [1.7 * 2, 0x000000]
+        particleColor: 0x000000,
+        lineStyle: [1.7 * antialias, 0x000000]
     },
     stage: {},
     changeText: () => {},
@@ -82,7 +87,7 @@ export default class Story extends Component {
 
     animate() {
         this.renderer.render(this.currentActRender())
-        // this.frame = requestAnimationFrame(this.animate)
+        this.frame = requestAnimationFrame(this.animate)
     }
 
     end() {

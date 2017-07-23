@@ -96,8 +96,8 @@ export default function makeStage(props) {
     })
 
     stage.addChild(upperCircle)
-    stage.addChild(lowerCircle)
-    stage.addChild(neck)
+    // stage.addChild(lowerCircle)
+    // stage.addChild(neck)
     stage.addChild(arrowWay)
     stage.addChild(arrowTop)
     stage.addChild(arrowBottom)
