@@ -3,10 +3,10 @@ import Router from 'preact-router'
 import Home from '@pages/home/home'
 import About from '@pages/about/about'
 
-import './index.css'
+import styles from './index.css'
 
 const Main = () => (
-	<div class='app'>
+	<div class={styles.app}>
         <Router>
             <Home path="/" />
             <About path="/about" />

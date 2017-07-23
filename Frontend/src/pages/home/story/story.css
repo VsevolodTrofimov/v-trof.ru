@@ -1,9 +1,17 @@
 .PixiContainer {
-    width: 500px;
+    width: 360px;
+}
+
+.PixiHost {
+    width: 720px;
+    margin: -180px -180px;
+    transform: scale(0.5);
 }
 
 .PixiContainerText {
     font-family: "Open Sans";
     font-size: 29px;
     text-align: center;
+    width: 100%;
+    transform: translateX(15px)
 }
