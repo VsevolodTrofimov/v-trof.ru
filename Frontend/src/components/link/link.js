@@ -2,7 +2,7 @@ import { h, Component } from 'preact'
 
 import ArrowLeft from '@icons/arrow-left.svg'
 
-import styles from './link.css'
+import styles from './link.sass'
 
 export default class Link extends Component {
     constructor(props) {

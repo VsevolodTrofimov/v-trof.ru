@@ -1,8 +1,9 @@
 import { h, Component } from 'preact'
-import makeStage from '@thisPage/story/make/stage'
-const PIXI = require('pixi.js') 
+const PIXI = {} //require('pixi.js') 
 
-import styles from './story.css'
+import makeStage from '@thisPage/story/make/stage'
+
+import styles from './story.sass'
 
 import act0 from './acts/0'
 
@@ -10,7 +11,7 @@ import act0 from './acts/0'
 const antialias = 2
 const context = {
     props: {
-        numberOfParticles: 20,
+        numberOfParticles: 25,
         
         lapPeriod: 500,
         lapsQuantity: 5,
@@ -97,15 +98,18 @@ export default class Story extends Component {
     render() {
         return (
             <div class={styles.PixiContainer}>
-                <div ref={(host) => { this.pixiHost = host }}
-                     class={styles.PixiHost}></div>
+                <div class={styles.PixiHostWrapper}>
+                    <div ref={(host) => { this.pixiHost = host }}
+                        class={styles.PixiHost}></div>
+                </div>
                 
-                <div ref={(arrowEnd) => { this.arrowEnd = arrowEnd }} 
+                <div ref={(arrowEnd) => { this.arrowEnd = arrowEnd }}
+                     class={styles.arrowEnd}
                      id="story-arrow-end"></div>
                 
                 <div ref={(host) => { this.textHost = host }} 
                      class={styles.PixiContainerText} 
-                     id='story-text'>And then it goes public</div>
+                     id='story-text'>Many ideas wander in my mind</div>
             </div>
         )
     }

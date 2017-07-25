@@ -5,7 +5,7 @@ module.exports = function(__dirname) {
 
   return {
     enforce: 'pre',
-    test: /\.(css|js|jsx)$/,
+    test: /\.(sass|js|jsx)$/,
     use: {
       loader: 'universal-alias-loader',
       options: {
@@ -18,7 +18,7 @@ module.exports = function(__dirname) {
           '@thisPage': (alias, foundPath, filePath) => {
               let splitFilePath = filePath.split(path.sep)
               let pagePath = splitFilePath.slice(0, splitFilePath.indexOf('pages') + 2).join('/')
-              foundPath = foundPath.replace(alias, pagePath, alias)
+              foundPath = foundPath.replace(alias, pagePath)
               return foundPath
           }
         }

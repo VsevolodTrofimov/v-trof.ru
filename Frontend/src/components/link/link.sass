@@ -1,0 +1,40 @@
+@import '@utils/vars.sass'
+
+
+.link 
+    display: inline-flex
+    flex-direction: row
+    align-items: center
+    
+    padding: 0 0 0 0.05em
+    margin-left: 0.2em
+
+    border-bottom: 0.08em solid
+    border-color: inherit
+    text-decoration: none
+    color: $color-black
+
+    transition: $transition-s
+
+
+    &:visited 
+        color: black
+
+
+    &:active 
+        color: $color-main-dark
+
+        .icon 
+            fill: $color-main-dark
+
+
+    &:hover .icon
+        transform: translateX(0.15em)
+
+
+.icon 
+    display: block
+    width: 0.8em
+    margin: 0.2em 0.05em 0 0.15em
+    transition: $transition-s
+    will-change: transform

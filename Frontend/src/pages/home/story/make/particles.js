@@ -1,3 +1,5 @@
+const PIXI = {}//require('pixi.js') 
+
 function makeParticle(props) {
     let particle = new PIXI.Graphics()
     
@@ -37,8 +39,6 @@ export default function makeParticles(props) {
         })
 
         particle.shift = {}
-        particle.shift.x = 0
-        particle.shift.y = 0
 
         particles.addChild(particle)
     }

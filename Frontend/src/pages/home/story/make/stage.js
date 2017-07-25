@@ -1,4 +1,4 @@
-const PIXI = require('pixi.js') 
+const PIXI = {}//require('pixi.js') 
 
 function makeCircle(props) {
     let circle = new PIXI.Graphics()
@@ -96,8 +96,8 @@ export default function makeStage(props) {
     })
 
     stage.addChild(upperCircle)
-    // stage.addChild(lowerCircle)
-    // stage.addChild(neck)
+    stage.addChild(lowerCircle)
+    stage.addChild(neck)
     stage.addChild(arrowWay)
     stage.addChild(arrowTop)
     stage.addChild(arrowBottom)

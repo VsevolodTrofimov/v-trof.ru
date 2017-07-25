@@ -1,0 +1,61 @@
+@import '@utils/vars.sass'
+
+$pixi-padding-inner: 30px
+$pixi-circleR: 47px
+$pixi-padding-outer: 90px
+
+$pixi-canvas-size: 720px
+
+$card-size: 590px
+
+.PixiContainer
+    position: relative
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: flex-start
+
+    height: $card-size
+    width: $card-size
+    padding: $space-s
+    padding-top: $pixi-padding-outer
+    
+    background: $color-white
+    border-radius: $border-r-l
+    border: $effect-sharper
+    
+    box-shadow: $box-shadow-flat
+
+.arrowEnd 
+    position: absolute
+    top: $pixi-padding-inner + $pixi-circleR * 2 + $pixi-padding-outer
+    right: 0
+
+.PixiHostWrapper
+    width: $pixi-canvas-size/2
+    height: $pixi-canvas-size/2
+    position: relative
+    overflow: visible
+
+.PixiHost
+    position: absolute
+    top: -$pixi-canvas-size/4
+    left: -$pixi-canvas-size/4
+    width: $pixi-canvas-size
+    height: $pixi-canvas-size
+    transform: scale(0.5)
+
+    max-width: 200%
+
+
+.PixiContainerText
+    font-family: "Open Sans"
+    font-size: 29px
+    text-align: center
+    width: 100%
+
+@media (max-width: $card-size + $space-l * 2)
+    .PixiContainer
+        width: 100%
+        height: auto
+        padding-bottom: $pixi-padding-outer
