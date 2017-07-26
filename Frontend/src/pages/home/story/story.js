@@ -1,11 +1,12 @@
 import { h, Component } from 'preact'
-const PIXI = {} //require('pixi.js') 
+const PIXI = require('pixi.js') 
 
 import makeStage from '@thisPage/story/make/stage'
 
 import styles from './story.sass'
 
 import act0 from './acts/0'
+import act1 from './acts/1'
 
 
 const antialias = 2
@@ -22,26 +23,25 @@ const context = {
         distance: 207 * antialias,
 
         padding: 30 * antialias,
-        
-        speedFactor: 10 ** (-3),
-        randomFactor: 0 * antialias,
-        
+
+        spreadFactor: 100,
+
         circleR: 47 * antialias,
         particleR: 2 * antialias,
-        mainR: 10 * antialias,
-        spreadR: 23 * antialias,
+        heroR: 10 * antialias,
 
         arrowSize: 7 * antialias,
 
-        particleColor: 0x000000,
-        lineStyle: [1.7 * antialias, 0x000000]
+        particleColor: 0x1e1e1e,
+        heroColor: 0xb96ac9,
+        lineStyle: [1.7 * antialias, 0x1e1e1e]
     },
     stage: {},
     changeText: () => {},
     next: () => {}
 }
 
-const acts = [act0]
+const acts = [act0, act1]
 
 export default class Story extends Component {
     constructor(props) {
@@ -68,6 +68,10 @@ export default class Story extends Component {
         //stage will start as +1 from here
         this.currentAct = -1
         this.next()
+
+        setTimeout(() => {
+            this.next()
+        }, 5000)
 
         this.animate()
     }
@@ -96,6 +100,7 @@ export default class Story extends Component {
     }
 
     render() {
+        console.log(styles.circleR)
         return (
             <div class={styles.PixiContainer}>
                 <div class={styles.PixiHostWrapper}>
@@ -109,7 +114,7 @@ export default class Story extends Component {
                 
                 <div ref={(host) => { this.textHost = host }} 
                      class={styles.PixiContainerText} 
-                     id='story-text'>Many ideas wander in my mind</div>
+                     id='story-text'>Starting...</div>
             </div>
         )
     }

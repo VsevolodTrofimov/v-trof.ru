@@ -1,4 +1,4 @@
-const PIXI = {}//require('pixi.js') 
+const PIXI = require('pixi.js') 
 
 function makeParticle(props) {
     let particle = new PIXI.Graphics()

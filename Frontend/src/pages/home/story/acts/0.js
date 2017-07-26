@@ -1,15 +1,9 @@
 import makeParticles from '@thisPage/story/make/particles'
+import getDistance from '@thisPage/story/utils/getDistance'
 
 //for no memory allocation lag on slow devices
 let circleCenter, particlePrediction = {x: 0, y: 0}
 let direction, ratio, ratioPrediction
-let distanceX, distanceY
-
-function getDistance(objA, objB) {
-    distanceX = objA.x - objB.x 
-    distanceY = objA.y - objB.y 
-    return Math.sqrt(distanceX * distanceX + distanceY * distanceY) 
-}
 
 function applyTurn(particle) {
     particle.shift.x = Math.cos(particle.direction)
@@ -37,6 +31,8 @@ export default function act0(context) {
     const numberOfParticles = context.props.numberOfParticles
 
     circleCenter = {x: context.props.circleR, y: context.props.circleR}
+
+    context.changeText('Many ideas wander in my mind')
 
     if( ! context.particles) {
         context.particles = makeParticles(context.props)
