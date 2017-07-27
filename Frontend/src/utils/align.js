@@ -4,7 +4,6 @@ export default function align (element, target, options={
         apply: true
     }) { 
     
-    console.log(options.by)
     let byRect = options.by.getBoundingClientRect()
     let targetRect = target.getBoundingClientRect()
     let innerDiff = 0
@@ -16,7 +15,6 @@ export default function align (element, target, options={
 
     result = targetRect.top - byRect.top
     
-    console.log(result, innerDiff)
     switch(options.to) {
         case 'center':
             result += (targetRect.height - byRect.height) / 2
@@ -25,7 +23,6 @@ export default function align (element, target, options={
             result += targetRect.height - byRect.height
             break
     }
-    console.log(targetRect.height - byRect.height, result)
 
     result += innerDiff
 

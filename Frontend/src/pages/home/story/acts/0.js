@@ -14,7 +14,6 @@ function applyTurn(particle) {
 function conditionalTurn(particle, circleR) {
     ratio = getDistance(particle, circleCenter)/circleR
     
-    
     if(ratio > 0.9) {
         particlePrediction.x = particle.x + particle.shift.x
         particlePrediction.y = particle.y + particle.shift.y
@@ -29,6 +28,8 @@ function conditionalTurn(particle, circleR) {
 
 export default function act0(context) {
     const numberOfParticles = context.props.numberOfParticles
+    let shouldEnd = false
+    let particle
 
     circleCenter = {x: context.props.circleR, y: context.props.circleR}
 
@@ -44,16 +45,25 @@ export default function act0(context) {
         particle.direction = direction
         applyTurn(particle)
     })
-    
+
+    setTimeout(function() {
+        shouldEnd = true
+    }, context.props.act0duration);
 
     return function act0getRender() {
-        context.particles.children.forEach(function(particle) {
+        for(let i = 0; i < numberOfParticles; i++) {
+            particle = context.particles.children[i]
             conditionalTurn(particle, context.props.circleR)
             particle.direction += Math.PI * (Math.random() - 0.5) / 36
             applyTurn(particle)
             particle.x += particle.shift.x
             particle.y += particle.shift.y
-        });
+
+            if(shouldEnd && Math.round(particle.x) === context.props.circleR) {
+                context.next()
+                break
+            }
+        }
         return context.stage
     }
 }

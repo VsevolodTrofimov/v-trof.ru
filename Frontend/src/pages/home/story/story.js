@@ -14,6 +14,7 @@ const context = {
     props: {
         numberOfParticles: 25,
         
+        act0duration: 5000,
         lapPeriod: 500,
         lapsQuantity: 5,
 
@@ -28,20 +29,28 @@ const context = {
 
         circleR: 47 * antialias,
         particleR: 2 * antialias,
-        heroR: 10 * antialias,
+
 
         arrowSize: 7 * antialias,
 
         particleColor: 0x1e1e1e,
+        lineStyle: [2 * antialias, 0x1e1e1e],
+
         heroColor: 0xb96ac9,
-        lineStyle: [1.7 * antialias, 0x1e1e1e]
+        heroAscensionSpeed: 2,
+        heroInitialAlpha: 0.5,
+        heroInnerRSmall: 4 * antialias,
+        heroInnerR: 10 * antialias,
+        heroOuterR: 21 * antialias,
+        heroLineStyle: [2 * antialias, 0xb96ac9],
+        heroScaleOuterFrames: 12
     },
     stage: {},
     changeText: () => {},
     next: () => {}
 }
 
-const acts = [act0, act1]
+const acts = [act0, act1, () => () => context.stage]
 
 export default class Story extends Component {
     constructor(props) {
@@ -68,10 +77,6 @@ export default class Story extends Component {
         //stage will start as +1 from here
         this.currentAct = -1
         this.next()
-
-        setTimeout(() => {
-            this.next()
-        }, 5000)
 
         this.animate()
     }
@@ -100,7 +105,6 @@ export default class Story extends Component {
     }
 
     render() {
-        console.log(styles.circleR)
         return (
             <div class={styles.PixiContainer}>
                 <div class={styles.PixiHostWrapper}>

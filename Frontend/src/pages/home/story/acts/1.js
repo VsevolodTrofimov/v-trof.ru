@@ -1,4 +1,5 @@
 import makeParticles from '@thisPage/story/make/particles'
+import makeHero from '@thisPage/story/make/hero'
 import getDistance from '@thisPage/story/utils/getDistance'
 
 let circleCenter, ratio
@@ -10,40 +11,60 @@ function conditionalHide(particle, circleR) {
     if(ratio > 0.95) {
         particle.visible = false
     }
-} 
+}
 
 function getAway(from, obj, spreadFactor) {
-    obj.shift.x = 1/(obj.x - from.x) * spreadFactor
-    obj.shift.y = 1/(obj.x - from.y) * spreadFactor
+    obj.shift.x += 1/(obj.x - from.x) * spreadFactor
+    obj.shift.y += 1/(obj.x - from.y) * spreadFactor
 }
 
 export default function act1(context) {
     let circleR = context.props.circleR
     let minDiff = circleR
     let minDiffParticle = -1
+    let distance, alphaStep
+    let heroScaleOuterDone = 1
 
     circleCenter = {x: context.props.circleR, y: context.props.circleR}
 
     context.changeText('Then one takes over')
-    
+
+    let hero = makeHero({
+        innerR: context.props.heroInnerRSmall,
+        outerR: context.props.heroOuterR,
+        fill: context.props.heroColor,
+        lineStyle: context.props.heroLineStyle
+    })
+
     if( ! context.particles) {
         context.particles = makeParticles(context.props)
         context.stage.addChild(context.particles)
     }
+
+    context.hero = hero
+    context.stage.addChild(hero)
     
     context.particles.children.forEach((particle, idx) => {
         if(Math.abs(particle.x - circleR) < minDiff) {
-            minDiff = particle.x - circleR
+            minDiff = Math.abs(particle.x - circleR)
             minDiffParticle = particle
         }
     })
 
-    console.log(minDiffParticle)
-    minDiffParticle.fillColor = context.props.heroColor
-    minDiffParticle.tint = context.props.heroColor
-    // minDiffParticle.x = circleR
+    // console.log(minDiffParticle)
+    
+    hero.x = circleR + context.props.width/2
+    hero.y = minDiffParticle.y + context.props.distance
+    hero.children[0].alpha = context.props.heroInitialAlpha
+    hero.scaleOuter(0)
+
+    alphaStep = context.props.heroAscensionSpeed * (1-context.props.heroInitialAlpha)/minDiffParticle.y
+
+    console.log(hero)
+
+    minDiffParticle.x = circleR
     minDiffParticle.shift.x = 0
-    minDiffParticle.shift.y = 1
+    minDiffParticle.shift.y = -context.props.heroAscensionSpeed
 
     context.particles.children.forEach(particle => {
         if(particle !== minDiffParticle) 
@@ -55,8 +76,21 @@ export default function act1(context) {
             particle.x += particle.shift.x
             particle.y += particle.shift.y
 
-            if(particle !== minDiffParticle) conditionalHide(particle, circleR)
+            conditionalHide(particle, circleR)
         })
+
+        hero.children[0].alpha += alphaStep
+        hero.y -= context.props.heroAscensionSpeed
+
+        if(heroScaleOuterDone <= context.props.heroScaleOuterFrames) {
+            hero.scaleOuter(heroScaleOuterDone/context.props.heroScaleOuterFrames)
+            heroScaleOuterDone++
+        }
+
+        if(hero.y <= context.props.distance) {
+            context.particles.visible = false
+            context.next()
+        }
 
         return context.stage
     }
