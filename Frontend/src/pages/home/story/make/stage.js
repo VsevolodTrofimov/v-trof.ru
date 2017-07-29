@@ -1,4 +1,4 @@
-const PIXI = require('pixi.js') 
+const PIXI = require('pixi-reduced-to-graphics') 
 
 function makeCircle(props) {
     let circle = new PIXI.Graphics()
@@ -52,7 +52,7 @@ export default function makeStage(props) {
     
     let lowerCircle = makeCircle({
         x: props.width/2 + props.circleR,
-        y: props.distance + props.circleR,
+        y: props.neckLength + props.circleR,
         lineStyle: props.lineStyle,
         r: props.circleR
     })
@@ -63,7 +63,7 @@ export default function makeStage(props) {
         
         lineStyle: props.lineStyle,
 
-        height: props.distance
+        height: props.neckLength
     })
 
     let arrowWay = makeLine({

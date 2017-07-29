@@ -1,12 +1,14 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const paths = require('./utility/paths')(__dirname)
 
 module.exports = {
   //input
-  entry: paths.entry,
+  entry: {
+    index: paths.entry,
+    // home: paths.src + '/pages/home/home'
+  },
 
   //transform
   module: {
@@ -21,14 +23,13 @@ module.exports = {
   //output
   output: {
     path: paths.dist,
-    filename: 'app.js'
+    filename: 'static/[name].js'
   },
   plugins: [
-    new ExtractTextPlugin('app.css'),
     new HtmlWebpackPlugin({
       title: 'Vsevolod Trofimov',
       template: paths.template,
-      filename: 'index.html'})
+      filename: '../index.html'})
   ],
 
   //dev

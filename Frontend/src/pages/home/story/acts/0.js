@@ -26,6 +26,7 @@ function conditionalTurn(particle, circleR) {
     }
 }
 
+
 export default function act0(context) {
     const numberOfParticles = context.props.numberOfParticles
     let shouldEnd = false
@@ -50,7 +51,7 @@ export default function act0(context) {
         shouldEnd = true
     }, context.props.act0duration);
 
-    return function act0getRender() {
+    return function act0getFrame() {
         for(let i = 0; i < numberOfParticles; i++) {
             particle = context.particles.children[i]
             conditionalTurn(particle, context.props.circleR)
@@ -59,7 +60,7 @@ export default function act0(context) {
             particle.x += particle.shift.x
             particle.y += particle.shift.y
 
-            if(shouldEnd && Math.round(particle.x) === context.props.circleR) {
+            if(shouldEnd && Math.round(particle.x) === context.props.circleR && particle.y >= context.props.circleR) {
                 context.next()
                 break
             }

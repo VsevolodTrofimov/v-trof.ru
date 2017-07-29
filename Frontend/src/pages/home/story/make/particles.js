@@ -1,4 +1,4 @@
-const PIXI = require('pixi.js') 
+const PIXI = require('pixi-reduced-to-graphics') 
 
 function makeParticle(props) {
     let particle = new PIXI.Graphics()
@@ -26,7 +26,7 @@ function randomShiftInCircle(r) {
 export default function makeParticles(props) {
     let particles = new PIXI.Container(props.circleR * 2, props.circleR * 2)
     particles.x = props.width/2
-    particles.y = props.distance
+    particles.y = props.neckLength
 
     let particle = undefined
     

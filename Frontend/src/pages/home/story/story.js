@@ -1,5 +1,5 @@
 import { h, Component } from 'preact'
-const PIXI = require('pixi.js') 
+const PIXI = require('pixi-reduced-to-graphics') 
 
 import makeStage from '@thisPage/story/make/stage'
 
@@ -7,6 +7,9 @@ import styles from './story.sass'
 
 import act0 from './acts/0'
 import act1 from './acts/1'
+import act2 from './acts/2'
+import act3 from './acts/3'
+import act4 from './acts/4'
 
 
 const antialias = 2
@@ -14,14 +17,14 @@ const context = {
     props: {
         numberOfParticles: 25,
         
-        act0duration: 5000,
-        lapPeriod: 500,
-        lapsQuantity: 5,
+        act0duration: 3500,
+        lapFrames: 300,
+        lapsQuantity: 2,
 
         width: 300 * antialias,
         height: 300 * antialias,
 
-        distance: 207 * antialias,
+        neckLength: 207 * antialias,
 
         padding: 30 * antialias,
 
@@ -40,17 +43,23 @@ const context = {
         heroAscensionSpeed: 2,
         heroInitialAlpha: 0.5,
         heroInnerRSmall: 4 * antialias,
-        heroInnerR: 10 * antialias,
-        heroOuterR: 21 * antialias,
+        heroInnerR: 8 * antialias,
+        heroOuterR: 20 * antialias,
         heroLineStyle: [2 * antialias, 0xb96ac9],
-        heroScaleOuterFrames: 12
+        heroScaleOuterFrames: 6,
+        
+        heroBeziers: 10,
+        bezierMorphFrames: 120,
+
+        neckTravelFrames: 190
     },
     stage: {},
     changeText: () => {},
     next: () => {}
 }
 
-const acts = [act0, act1, () => () => context.stage]
+const pause = () => () => context.stage
+const acts = [act0, act1, act2, act3, act4, pause]
 
 export default class Story extends Component {
     constructor(props) {
@@ -81,9 +90,15 @@ export default class Story extends Component {
         this.animate()
     }
 
-    changeText(text) {
-        //mb a fancy transition later
-        this.textHost.innerHTML = text
+    changeText(text, duration) {
+        let self = this
+        duration = duration || 150
+        self.textHost.style.opacity = 0
+        self.textHost.style.transitionDuration = duration + 'ms'
+        setTimeout(() => {
+            self.textHost.innerHTML = text
+            self.textHost.style.opacity = 1
+        }, duration)
     }
 
     next() {

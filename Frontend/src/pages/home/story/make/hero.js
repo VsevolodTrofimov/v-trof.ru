@@ -1,4 +1,4 @@
-const PIXI = require('pixi.js') 
+const PIXI = require('pixi-reduced-to-graphics') 
 
 function redrawInner(inner, props) {
     inner.clear()

@@ -3,7 +3,6 @@ import makeHero from '@thisPage/story/make/hero'
 import getDistance from '@thisPage/story/utils/getDistance'
 
 let circleCenter, ratio
-
 function conditionalHide(particle, circleR) {
     ratio = getDistance(particle, circleCenter)/circleR
     
@@ -13,10 +12,12 @@ function conditionalHide(particle, circleR) {
     }
 }
 
+
 function getAway(from, obj, spreadFactor) {
     obj.shift.x += 1/(obj.x - from.x) * spreadFactor
     obj.shift.y += 1/(obj.x - from.y) * spreadFactor
 }
+
 
 export default function act1(context) {
     let circleR = context.props.circleR
@@ -29,19 +30,21 @@ export default function act1(context) {
 
     context.changeText('Then one takes over')
 
-    let hero = makeHero({
-        innerR: context.props.heroInnerRSmall,
-        outerR: context.props.heroOuterR,
-        fill: context.props.heroColor,
-        lineStyle: context.props.heroLineStyle
-    })
+    if( ! context.hero) {
+        context.hero = makeHero({
+            innerR: context.props.heroInnerRSmall,
+            outerR: context.props.heroOuterR,
+            fill: context.props.heroColor,
+            lineStyle: context.props.heroLineStyle
+        })
+    }
 
     if( ! context.particles) {
         context.particles = makeParticles(context.props)
         context.stage.addChild(context.particles)
     }
 
-    context.hero = hero
+    let hero = context.hero
     context.stage.addChild(hero)
     
     context.particles.children.forEach((particle, idx) => {
@@ -54,13 +57,11 @@ export default function act1(context) {
     // console.log(minDiffParticle)
     
     hero.x = circleR + context.props.width/2
-    hero.y = minDiffParticle.y + context.props.distance
+    hero.y = minDiffParticle.y + context.props.neckLength
     hero.children[0].alpha = context.props.heroInitialAlpha
     hero.scaleOuter(0)
 
     alphaStep = context.props.heroAscensionSpeed * (1-context.props.heroInitialAlpha)/minDiffParticle.y
-
-    console.log(hero)
 
     minDiffParticle.x = circleR
     minDiffParticle.shift.x = 0
@@ -71,7 +72,7 @@ export default function act1(context) {
             getAway(minDiffParticle, particle, context.props.spreadFactor)
     })
 
-    return function act1getRender() {
+    return function act1getFrame() {
         context.particles.children.forEach(particle => {
             particle.x += particle.shift.x
             particle.y += particle.shift.y
@@ -87,7 +88,7 @@ export default function act1(context) {
             heroScaleOuterDone++
         }
 
-        if(hero.y <= context.props.distance) {
+        if(hero.y <= context.props.neckLength) {
             context.particles.visible = false
             context.next()
         }
