@@ -10,17 +10,17 @@ import act1 from './acts/1'
 import act2 from './acts/2'
 import act3 from './acts/3'
 import act4 from './acts/4'
+import act5 from './acts/5'
 
 
 const antialias = 2
+
+const heroSpeed = 1.2 * antialias
+const circleR = 47 * antialias
+
 const context = {
     props: {
-        numberOfParticles: 25,
-        
-        act0duration: 3500,
-        lapSteps: 300,
-        lapsQuantity: 2,
-
+        //initial setuop
         width: 300 * antialias,
         height: 300 * antialias,
 
@@ -28,17 +28,20 @@ const context = {
 
         padding: 30 * antialias,
 
-        spreadFactor: 100,
-
-        circleR: 47 * antialias,
-        particleR: 2 * antialias,
-
+        circleR: circleR,
 
         arrowSize: 7 * antialias,
-
-        particleColor: 0x1e1e1e,
+        
         lineStyle: [2 * antialias, 0x1e1e1e],
 
+        heroSpeed: heroSpeed,
+        //act 0+
+        act0Duration: 3500,
+        numberOfParticles: 20,
+        particleR: 2 * antialias,
+        particleColor: 0x1e1e1e,
+
+        //act 1+
         heroColor: 0xb96ac9,
         heroAscensionSpeed: 2,
         heroInitialAlpha: 0.5,
@@ -47,15 +50,23 @@ const context = {
         heroOuterR: 20 * antialias,
         heroLineStyle: [2 * antialias, 0xb96ac9],
         heroScaleOuterSteps: 12,
+        spreadFactor: 100,
         
+        //act 2+
+        lapSteps: 2 * circleR * Math.PI/heroSpeed,
+        lapsQuantity: 2,
         heroBeziers: 10,
         bezierMorphSteps: 120,
 
+        //act 3
         bezierResetDelaySteps: 10,
-        neckTravelSteps: 190,
         
+        //act 4
         heroOuterRSpreadMax: 0.1,
-        heroOuterRSpreadSteps: 12
+        heroOuterRSpreadSteps: 12,
+
+        //act5
+        act5TravelSteps: 30,
     },
     stage: {},
     changeText: () => {},
@@ -63,7 +74,7 @@ const context = {
 }
 
 const pause = () => () => context.stage
-const acts = [act0, act1, act2, act3, act4, pause]
+const acts = [act0, act1, act2, act3, act4, act5, pause]
 
 export default class Story extends Component {
     constructor(props) {
@@ -71,6 +82,9 @@ export default class Story extends Component {
         this.animate = this.animate.bind(this)
         this.next = this.next.bind(this)
         this.end = this.end.bind(this)
+        
+        //first act will be +1 from this value
+        this.currentAct = -1
     }
 
     componentDidMount() {
@@ -87,8 +101,6 @@ export default class Story extends Component {
         context.next = this.next
         context.changeText = this.changeText.bind(this)
 
-        //stage will start as +1 from here
-        this.currentAct = -1
         this.next()
 
         this.animate()

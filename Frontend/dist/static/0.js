@@ -54,7 +54,7 @@ var UpperText = function UpperText(props) {
     return (0, _preact.h)(
         'div',
         { 'class': _home2.default.textBlock },
-        'This is how',
+        'This is how ',
         (0, _preact.h)(
             _link2.default,
             { url: props.project.url,
@@ -62,8 +62,7 @@ var UpperText = function UpperText(props) {
                     return upperTextProjectsLink = link;
                 } },
             ' ',
-            props.project.title,
-            ' '
+            props.project.title
         ),
         ' was born. ',
         (0, _preact.h)('br', null),
@@ -11958,7 +11957,6 @@ function redrawBezier(curve, props) {
     curve.clear();
 
     curve.beginFill(props.fill || curve.fill);
-    // curve.lineStyle(...props.lineStyle)
     curve.moveTo(curve.start.x, curve.start.y);
 
     curve.bezierCurveTo(props.cp1X, props.cp1Y, props.cp2X, props.cp2Y, curve.end.x, curve.end.y);
@@ -12001,8 +11999,6 @@ function makeBeziers(quantity, props) {
         curve.fill = props.heroColor;
 
         redrawBezier(curve, {
-            lineStyle: props.lineStyle,
-
             cp1X: 0,
             cp1Y: 0,
 
@@ -12139,7 +12135,7 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, "/* colors */\n/* Spacing */\n/* Fonts */\n/* Effects */\n._3_aq8 {\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  padding: 0 0 0 0.05em;\n  margin-left: 0.2em;\n  border-bottom: 0.07em solid;\n  border-color: inherit;\n  text-decoration: none;\n  color: #1e1e1e;\n  -webkit-transition: 0.15s ease;\n  transition: 0.15s ease; }\n  ._3_aq8:visited {\n    color: black; }\n  ._3_aq8:active {\n    color: #4f6b80; }\n    ._3_aq8:active ._1yXo_ {\n      fill: #4f6b80; }\n  ._3_aq8:hover ._1yXo_ {\n    -webkit-transform: translateX(0.15em);\n            transform: translateX(0.15em); }\n\n._1yXo_ {\n  display: block;\n  width: 0.8em;\n  margin: 0.2em 0.05em 0 0.15em;\n  -webkit-transition: 0.15s ease;\n  transition: 0.15s ease;\n  will-change: transform; }\n", ""]);
+exports.push([module.i, "/* colors */\n/* Spacing */\n/* Fonts */\n/* Effects */\n._3_aq8 {\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  padding: 0 0 0 0.05em;\n  border-bottom: 0.07em solid;\n  border-color: inherit;\n  text-decoration: none;\n  color: #1e1e1e;\n  -webkit-transition: 0.15s ease;\n  transition: 0.15s ease; }\n  ._3_aq8:visited {\n    color: black; }\n  ._3_aq8:active {\n    color: #4f6b80; }\n    ._3_aq8:active ._1yXo_ {\n      fill: #4f6b80; }\n  ._3_aq8:hover ._1yXo_ {\n    -webkit-transform: translateX(0.15em);\n            transform: translateX(0.15em); }\n\n._1yXo_ {\n  display: block;\n  width: 0.8em;\n  margin: 0.2em 0.05em 0 0.15em;\n  -webkit-transition: 0.15s ease;\n  transition: 0.15s ease;\n  will-change: transform; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -12238,6 +12234,10 @@ var _9 = __webpack_require__(143);
 
 var _10 = _interopRequireDefault(_9);
 
+var _11 = __webpack_require__(146);
+
+var _12 = _interopRequireDefault(_11);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -12249,14 +12249,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var PIXI = __webpack_require__(17);
 
 var antialias = 2;
+
+var heroSpeed = 1.2 * antialias;
+var circleR = 47 * antialias;
+
 var context = {
     props: {
-        numberOfParticles: 25,
-
-        act0duration: 3500,
-        lapSteps: 300,
-        lapsQuantity: 2,
-
+        //initial setuop
         width: 300 * antialias,
         height: 300 * antialias,
 
@@ -12264,16 +12263,20 @@ var context = {
 
         padding: 30 * antialias,
 
-        spreadFactor: 100,
-
-        circleR: 47 * antialias,
-        particleR: 2 * antialias,
+        circleR: circleR,
 
         arrowSize: 7 * antialias,
 
-        particleColor: 0x1e1e1e,
         lineStyle: [2 * antialias, 0x1e1e1e],
 
+        heroSpeed: heroSpeed,
+        //act 0+
+        act0Duration: 3500,
+        numberOfParticles: 20,
+        particleR: 2 * antialias,
+        particleColor: 0x1e1e1e,
+
+        //act 1+
         heroColor: 0xb96ac9,
         heroAscensionSpeed: 2,
         heroInitialAlpha: 0.5,
@@ -12282,15 +12285,23 @@ var context = {
         heroOuterR: 20 * antialias,
         heroLineStyle: [2 * antialias, 0xb96ac9],
         heroScaleOuterSteps: 12,
+        spreadFactor: 100,
 
+        //act 2+
+        lapSteps: 2 * circleR * Math.PI / heroSpeed,
+        lapsQuantity: 2,
         heroBeziers: 10,
         bezierMorphSteps: 120,
 
+        //act 3
         bezierResetDelaySteps: 10,
-        neckTravelSteps: 190,
 
+        //act 4
         heroOuterRSpreadMax: 0.1,
-        heroOuterRSpreadSteps: 12
+        heroOuterRSpreadSteps: 12,
+
+        //act5
+        act5TravelSteps: 30
     },
     stage: {},
     changeText: function changeText() {},
@@ -12302,7 +12313,7 @@ var pause = function pause() {
         return context.stage;
     };
 };
-var acts = [_2.default, _4.default, _6.default, _8.default, _10.default, pause];
+var acts = [_2.default, _4.default, _6.default, _8.default, _10.default, _12.default, pause];
 
 var Story = function (_Component) {
     _inherits(Story, _Component);
@@ -12315,6 +12326,9 @@ var Story = function (_Component) {
         _this.animate = _this.animate.bind(_this);
         _this.next = _this.next.bind(_this);
         _this.end = _this.end.bind(_this);
+
+        //first act will be +1 from this value
+        _this.currentAct = -1;
         return _this;
     }
 
@@ -12332,8 +12346,6 @@ var Story = function (_Component) {
             context.next = this.next;
             context.changeText = this.changeText.bind(this);
 
-            //stage will start as +1 from here
-            this.currentAct = -1;
             this.next();
 
             this.animate();
@@ -23831,7 +23843,7 @@ function act0(context) {
 
     setTimeout(function () {
         shouldEnd = true;
-    }, context.props.act0duration);
+    }, context.props.act0Duration);
 
     return function act0getFrame() {
         for (var i = 0; i < numberOfParticles; i++) {
@@ -23928,8 +23940,6 @@ function act1(context) {
         }
     });
 
-    // console.log(minDiffParticle)
-
     hero.x = circleR + context.props.width / 2;
     hero.y = minDiffParticle.y + context.props.neckLength;
     hero.children[0].alpha = context.props.heroInitialAlpha;
@@ -24023,12 +24033,16 @@ function act2(context) {
         y: context.props.neckLength + context.props.circleR
     };
 
-    var scaleStep = context.props.heroInnerR / context.props.heroInnerRSmall / context.props.lapSteps;
+    var firstLapSteps = Math.floor(0.75 * context.props.lapSteps);
+    var totalSteps = Math.floor((0.75 - 1 /* firstLap */ + context.props.lapsQuantity) * context.props.lapSteps);
+
+    var scaleStep = (context.props.heroInnerR / context.props.heroInnerRSmall - 1) / firstLapSteps;
 
     var angle = Math.PI * 1.5; //1.5 coz y is inverted
     var completedScales = 0;
     var completedLaps = 0;
     var completedMorpthSteps = 0;
+    var completedSteps = 0;
 
     context.changeText('It grows and mutates', 500);
 
@@ -24053,17 +24067,6 @@ function act2(context) {
 
     return function act2getFrame() {
         angle += angleStep;
-        if (context.hero.x === context.props.width / 2) {
-            completedLaps++;
-            if (completedLaps == context.props.lapsQuantity) {
-                context.next();
-            }
-        }
-
-        if (completedLaps < 1) {
-            context.hero.scaleInner(1 + scaleStep * completedScales);
-            completedScales++;
-        }
 
         if (completedMorpthSteps === 0) {
             setMorphSteps(context.beziers.children, context.props.bezierMorphSteps, context.props.heroOuterR * 1.5);
@@ -24071,7 +24074,6 @@ function act2(context) {
 
         context.beziers.children.forEach(function (curve) {
             (0, _beziers.redrawBezier)(curve, {
-                // lineStyle: context.props.lineStyle,
                 cp1X: curve.cp1X + curve.morphStep.cp1X,
                 cp1Y: curve.cp1Y + curve.morphStep.cp1Y,
 
@@ -24085,6 +24087,16 @@ function act2(context) {
                 completedMorpthSteps = 0;
             }
         });
+
+        completedSteps++;
+        if (completedSteps === totalSteps) {
+            context.next();
+        }
+
+        if (completedSteps <= firstLapSteps) {
+            context.hero.scaleInner(1 + scaleStep * completedScales);
+            completedScales++;
+        }
 
         setCurrentPos(context.hero, angle, context.props.circleR, circleCenter);
         return context.stage;
@@ -24130,7 +24142,9 @@ function resetMorphTargets(beziers, morphSteps) {
 }
 
 function act3(context) {
-    var stepY = -context.props.neckLength / context.props.neckTravelSteps;
+    var stepY = -context.props.heroSpeed;
+    var neckTravelSteps = Math.floor(context.props.neckLength / -stepY);
+
     var completedSteps = 0;
     var beziersToMorph = 1;
     var bezierResetDelayStepsCompelted = 0;
@@ -24160,14 +24174,12 @@ function act3(context) {
 
     resetMorphTargets(context.beziers.children, context.props.bezierMorphSteps);
 
-    console.log(context.props.bezierResetDelaySteps);
     return function act3getFrame() {
         context.hero.y += stepY;
 
         for (i = 0; i < beziersToMorph; i++) {
             curve = context.beziers.children[i];
             (0, _beziers.redrawBezier)(curve, {
-                // lineStyle: context.props.lineStyle,
                 cp1X: curve.cp1X + curve.morphStep.cp1X,
                 cp1Y: curve.cp1Y + curve.morphStep.cp1Y,
 
@@ -24179,12 +24191,11 @@ function act3(context) {
         bezierResetDelayStepsCompelted++;
         if (bezierResetDelayStepsCompelted === context.props.bezierResetDelaySteps) {
             bezierResetDelayStepsCompelted = 0;
-            console.log(beziersToMorph);
             if (beziersToMorph < context.props.heroBeziers) beziersToMorph++;
         }
 
         completedSteps++;
-        if (completedSteps === context.props.neckTravelSteps) context.next();
+        if (completedSteps === neckTravelSteps) context.next();
 
         return context.stage;
     };
@@ -24200,7 +24211,7 @@ function act3(context) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = act2;
+exports.default = act4;
 
 var _hero = __webpack_require__(25);
 
@@ -24220,7 +24231,7 @@ function getScaleStep(maxSpread, quantity, currentScale) {
     return (targetScale - currentScale) / quantity;
 }
 
-function act2(context) {
+function act4(context) {
     var angleStep = Math.PI * 2 / context.props.lapSteps;
 
     var circleCenter = {
@@ -24228,11 +24239,15 @@ function act2(context) {
         y: context.props.circleR
     };
 
+    var lastAdjustSteps = Math.floor(context.props.lapSteps / 2);
+    var endSteps = Math.floor(context.props.lapSteps * 0.75);
+
     var angle = 0;
     var scaleStep = 0;
     var completedScaleSteps = context.props.heroOuterRSpreadSteps;
     var currentScale = 1;
     var maxSpread = context.props.heroOuterRSpreadMax;
+    var completedSteps = 0;
 
     context.changeText('...gets adjusted', 250);
 
@@ -24250,7 +24265,7 @@ function act2(context) {
     context.hero.x = circleCenter.x + context.props.circleR;
     context.hero.y = circleCenter.y;
 
-    return function act2getFrame() {
+    return function act4getFrame() {
         angle += angleStep;
 
         if (completedScaleSteps === context.props.heroOuterRSpreadSteps) {
@@ -24261,12 +24276,12 @@ function act2(context) {
 
         currentScale += scaleStep;
         context.hero.scaleOuter(currentScale);
-
         completedScaleSteps++;
 
-        if (context.hero.position.y === circleCenter.y + context.props.circleR) context.next();
+        completedSteps++;
+        if (completedSteps === lastAdjustSteps) maxSpread = 0;
 
-        if (context.hero.position.x === circleCenter.x - context.props.circleR) maxSpread = 0;
+        if (completedSteps === endSteps) context.next();
 
         setCurrentPos(context.hero, angle, context.props.circleR, circleCenter);
         return context.stage;
@@ -24321,6 +24336,62 @@ exports.locals = {
 	"textBlock": "_3f7uB",
 	"home": "HC8s1"
 };
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = act5;
+
+var _hero = __webpack_require__(25);
+
+var _hero2 = _interopRequireDefault(_hero);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function act5(context) {
+    var accelX = context.props.circleR * 2 / context.props.act5TravelSteps;
+    var circleCenter = {
+        x: context.props.width / 2 - context.props.circleR,
+        y: context.props.circleR
+    };
+
+    var stepX = context.props.heroSpeed;
+
+    context.changeText('And becomes public', 150);
+
+    if (!context.hero) {
+        context.hero = (0, _hero2.default)({
+            innerR: context.props.heroInnerR,
+            outerR: context.props.heroOuterR,
+            fill: context.props.heroColor,
+            lineStyle: context.props.heroLineStyle
+        });
+
+        context.stage.addChild(context.hero);
+    }
+
+    context.hero.x = circleCenter.x;
+    context.hero.y = circleCenter.y + context.props.circleR;
+    context.hero.scaleOuter(1);
+
+    return function act5getFrame() {
+        context.hero.x += stepX;
+
+        if (context.hero.position.x >= circleCenter.x + context.props.circleR * 2) {
+            context.hero.visible = false;
+            context.next();
+        }
+
+        return context.stage;
+    };
+}
 
 /***/ })
 ]);

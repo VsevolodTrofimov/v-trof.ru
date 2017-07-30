@@ -49,7 +49,7 @@ export default function act0(context) {
 
     setTimeout(function() {
         shouldEnd = true
-    }, context.props.act0duration);
+    }, context.props.act0Duration);
 
     return function act0getFrame() {
         for(let i = 0; i < numberOfParticles; i++) {

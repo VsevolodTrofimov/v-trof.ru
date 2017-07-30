@@ -54,7 +54,6 @@ export default function act1(context) {
         }
     })
 
-    // console.log(minDiffParticle)
     
     hero.x = circleR + context.props.width/2
     hero.y = minDiffParticle.y + context.props.neckLength

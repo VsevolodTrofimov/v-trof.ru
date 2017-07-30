@@ -5,7 +5,6 @@ export function redrawBezier(curve, props) {
     curve.clear()
 
     curve.beginFill(props.fill || curve.fill)
-    // curve.lineStyle(...props.lineStyle)
     curve.moveTo(curve.start.x, curve.start.y)
     
     curve.bezierCurveTo(
@@ -52,8 +51,6 @@ export function makeBeziers(quantity, props) {
         curve.fill = props.heroColor
 
         redrawBezier(curve, {
-            lineStyle: props.lineStyle,
-
             cp1X: 0,
             cp1Y: 0,
             

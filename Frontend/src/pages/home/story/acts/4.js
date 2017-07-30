@@ -13,19 +13,23 @@ function getScaleStep(maxSpread, quantity, currentScale) {
 }
 
 
-export default function act2(context) {
+export default function act4(context) {
     const angleStep = Math.PI * 2 / context.props.lapSteps 
 
     const circleCenter = {
         x: context.props.width/2 - context.props.circleR, 
         y: context.props.circleR
     }
+
+    const lastAdjustSteps = Math.floor(context.props.lapSteps/2)
+    const endSteps = Math.floor(context.props.lapSteps * 0.75)
     
     let angle = 0
     let scaleStep = 0
     let completedScaleSteps = context.props.heroOuterRSpreadSteps
     let currentScale = 1
     let maxSpread = context.props.heroOuterRSpreadMax
+    let completedSteps = 0
 
     context.changeText('...gets adjusted', 250)
 
@@ -44,7 +48,7 @@ export default function act2(context) {
     context.hero.x = circleCenter.x + context.props.circleR
     context.hero.y = circleCenter.y
 
-    return function act2getFrame() {
+    return function act4getFrame() {
         angle += angleStep
 
         if(completedScaleSteps === context.props.heroOuterRSpreadSteps) {
@@ -59,14 +63,12 @@ export default function act2(context) {
         
         currentScale += scaleStep
         context.hero.scaleOuter(currentScale)
-
         completedScaleSteps++
-
-        if(context.hero.position.y === circleCenter.y + context.props.circleR)
-            context.next()
-
-        if(context.hero.position.x === circleCenter.x - context.props.circleR)
-            maxSpread = 0
+        
+        completedSteps++
+        if(completedSteps === lastAdjustSteps) maxSpread = 0
+       
+        if(completedSteps === endSteps) context.next()
 
         setCurrentPos(context.hero, angle, context.props.circleR, circleCenter)
         return context.stage

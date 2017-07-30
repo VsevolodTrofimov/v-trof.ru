@@ -36,14 +36,18 @@ export default function act2(context) {
         y: context.props.neckLength + context.props.circleR
     }
 
+    const firstLapSteps = Math.floor(0.75 * context.props.lapSteps)
+    const totalSteps = Math.floor((0.75 - 1 /* firstLap */ + context.props.lapsQuantity) * context.props.lapSteps)
+
     const scaleStep = (
-        context.props.heroInnerR/context.props.heroInnerRSmall
-    ) / context.props.lapSteps
-    
+        context.props.heroInnerR/context.props.heroInnerRSmall - 1
+    ) / firstLapSteps
+
     let angle = Math.PI * 1.5 //1.5 coz y is inverted
     let completedScales = 0
     let completedLaps = 0
     let completedMorpthSteps = 0
+    let completedSteps = 0
 
     context.changeText('It grows and mutates', 500)
 
@@ -69,17 +73,6 @@ export default function act2(context) {
 
     return function act2getFrame() {
         angle += angleStep
-        if(context.hero.x === context.props.width/2) {
-            completedLaps++
-            if(completedLaps == context.props.lapsQuantity) {
-                context.next()
-            }
-        }
-
-        if(completedLaps < 1) {
-            context.hero.scaleInner(1 + scaleStep * completedScales)
-            completedScales++
-        }
         
         if(completedMorpthSteps === 0) {
             setMorphSteps(
@@ -91,7 +84,6 @@ export default function act2(context) {
 
         context.beziers.children.forEach(curve => {
             redrawBezier(curve, {
-                // lineStyle: context.props.lineStyle,
                 cp1X: curve.cp1X + curve.morphStep.cp1X,
                 cp1Y: curve.cp1Y + curve.morphStep.cp1Y,
                 
@@ -105,6 +97,17 @@ export default function act2(context) {
                 completedMorpthSteps = 0
             }
         })
+
+
+        completedSteps++
+        if(completedSteps === totalSteps) {
+            context.next()
+        }
+
+        if(completedSteps <= firstLapSteps) {
+            context.hero.scaleInner(1 + scaleStep * completedScales)
+            completedScales++
+        }
 
         setCurrentPos(context.hero, angle, context.props.circleR, circleCenter)
         return context.stage

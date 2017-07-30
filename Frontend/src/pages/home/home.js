@@ -10,9 +10,9 @@ let upperTextProjectsLink
 
 let UpperText = (props) => (
     <div class={styles.textBlock}>
-        This is how  
-        <Link url={props.project.url} 
-            ref={link => upperTextProjectsLink = link}> {props.project.title} </Link> was born. <br />
+        This is how <Link url={props.project.url} 
+            ref={link => upperTextProjectsLink = link}> {props.project.title} 
+        </Link> was born. <br />
         See <Link url='/projects/'> other projects </Link> <br />
         Or <Link url='/contact/'> make the next one yours </Link>
     </div>
