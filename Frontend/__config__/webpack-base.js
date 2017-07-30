@@ -26,7 +26,8 @@ module.exports = {
   //output
   output: {
     path: paths.dist,
-    filename: 'static/[name].js'
+    filename: 'static/[name].js',
+    chunkFilename: 'static/[name].js'
   },
   plugins: [
     new HtmlWebpackPlugin({

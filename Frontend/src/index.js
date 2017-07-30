@@ -7,7 +7,7 @@ import About from '@pages/about/about'
 
 import styles from './index.sass'
 
-const Home = () => System.import(/* webpackChunkName: "home" */ './pages/home/home.js').then(module => module.default)
+const Home = () => System.import(/* webpackChunkName: "home" */ '@pages/home/home.js').then(module => module.default)
 
 const Main = () => (
 	<div>

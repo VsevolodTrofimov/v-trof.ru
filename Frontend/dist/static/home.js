@@ -36,7 +36,7 @@ var _story = __webpack_require__(69);
 
 var _story2 = _interopRequireDefault(_story);
 
-var _home = __webpack_require__(144);
+var _home = __webpack_require__(145);
 
 var _home2 = _interopRequireDefault(_home);
 
@@ -2479,6 +2479,71 @@ exports.default = WebGLManager;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = makeHero;
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var PIXI = __webpack_require__(17);
+
+function redrawInner(inner, props) {
+    inner.clear();
+    inner.beginFill(props.fill);
+    inner.drawCircle(0, 0, props.r);
+    inner.endFill();
+}
+
+function redrawOuter(outer, props) {
+    outer.clear();
+    outer.lineStyle.apply(outer, _toConsumableArray(props.lineStyle));
+    outer.drawCircle(0, 0, props.r);
+    outer.endFill();
+}
+
+function makeHero(props) {
+    var hero = new PIXI.Container();
+
+    var inner = new PIXI.Graphics();
+    redrawInner(inner, {
+        fill: props.fill,
+        r: props.innerR
+    });
+
+    var outer = new PIXI.Graphics();
+    redrawOuter(outer, {
+        lineStyle: props.lineStyle,
+        r: props.outerR
+    });
+
+    hero.addChild(inner);
+    hero.addChild(outer);
+
+    hero.scaleInner = function (ratio) {
+        return redrawInner(inner, {
+            fill: props.fill,
+            r: props.innerR * ratio
+        });
+    };
+
+    hero.scaleOuter = function (ratio) {
+        return redrawOuter(outer, {
+            lineStyle: props.lineStyle,
+            r: props.outerR * ratio
+        });
+    };
+
+    return hero;
+}
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 exports.__esModule = true;
 
 var _utils = __webpack_require__(13);
@@ -3322,7 +3387,7 @@ exports.default = BaseTexture;
 //# sourceMappingURL=BaseTexture.js.map
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3679,7 +3744,7 @@ _utils.pluginTarget.mixin(CanvasRenderer);
 //# sourceMappingURL=CanvasRenderer.js.map
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4011,7 +4076,7 @@ exports.default = RenderTarget;
 //# sourceMappingURL=RenderTarget.js.map
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4284,71 +4349,6 @@ function buildNativeLine(graphicsData, webGLData) {
     }
 }
 //# sourceMappingURL=buildLine.js.map
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = makeHero;
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var PIXI = __webpack_require__(17);
-
-function redrawInner(inner, props) {
-    inner.clear();
-    inner.beginFill(props.fill);
-    inner.drawCircle(0, 0, props.r);
-    inner.endFill();
-}
-
-function redrawOuter(outer, props) {
-    outer.clear();
-    outer.lineStyle.apply(outer, _toConsumableArray(props.lineStyle));
-    outer.drawCircle(0, 0, props.r);
-    outer.endFill();
-}
-
-function makeHero(props) {
-    var hero = new PIXI.Container();
-
-    var inner = new PIXI.Graphics();
-    redrawInner(inner, {
-        fill: props.fill,
-        r: props.innerR
-    });
-
-    var outer = new PIXI.Graphics();
-    redrawOuter(outer, {
-        lineStyle: props.lineStyle,
-        r: props.outerR
-    });
-
-    hero.addChild(inner);
-    hero.addChild(outer);
-
-    hero.scaleInner = function (ratio) {
-        return redrawInner(inner, {
-            fill: props.fill,
-            r: props.innerR * ratio
-        });
-    };
-
-    hero.scaleOuter = function (ratio) {
-        return redrawOuter(outer, {
-            lineStyle: props.lineStyle,
-            r: props.outerR * ratio
-        });
-    };
-
-    return hero;
-}
 
 /***/ }),
 /* 26 */
@@ -5217,7 +5217,7 @@ exports.__esModule = true;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _BaseTexture = __webpack_require__(21);
+var _BaseTexture = __webpack_require__(22);
 
 var _BaseTexture2 = _interopRequireDefault(_BaseTexture);
 
@@ -6079,7 +6079,7 @@ var _FilterManager = __webpack_require__(120);
 
 var _FilterManager2 = _interopRequireDefault(_FilterManager);
 
-var _RenderTarget = __webpack_require__(23);
+var _RenderTarget = __webpack_require__(24);
 
 var _RenderTarget2 = _interopRequireDefault(_RenderTarget);
 
@@ -6091,7 +6091,7 @@ var _TextureManager = __webpack_require__(123);
 
 var _TextureManager2 = _interopRequireDefault(_TextureManager);
 
-var _BaseTexture = __webpack_require__(21);
+var _BaseTexture = __webpack_require__(22);
 
 var _BaseTexture2 = _interopRequireDefault(_BaseTexture);
 
@@ -11791,7 +11791,7 @@ var _utils = __webpack_require__(13);
 
 var utils = _interopRequireWildcard(_utils);
 
-var _CanvasRenderer = __webpack_require__(22);
+var _CanvasRenderer = __webpack_require__(23);
 
 var _CanvasRenderer2 = _interopRequireDefault(_CanvasRenderer);
 
@@ -12234,7 +12234,7 @@ var _9 = __webpack_require__(143);
 
 var _10 = _interopRequireDefault(_9);
 
-var _11 = __webpack_require__(146);
+var _11 = __webpack_require__(144);
 
 var _12 = _interopRequireDefault(_11);
 
@@ -13086,7 +13086,7 @@ Object.defineProperty(exports, 'ObjectRenderer', {
   }
 });
 
-var _RenderTarget = __webpack_require__(23);
+var _RenderTarget = __webpack_require__(24);
 
 Object.defineProperty(exports, 'RenderTarget', {
   enumerable: true,
@@ -13152,7 +13152,7 @@ var _settings = __webpack_require__(15);
 
 var _settings2 = _interopRequireDefault(_settings);
 
-var _CanvasRenderer = __webpack_require__(22);
+var _CanvasRenderer = __webpack_require__(23);
 
 var _CanvasRenderer2 = _interopRequireDefault(_CanvasRenderer);
 
@@ -14894,7 +14894,7 @@ var _bezierCurveTo2 = __webpack_require__(109);
 
 var _bezierCurveTo3 = _interopRequireDefault(_bezierCurveTo2);
 
-var _CanvasRenderer = __webpack_require__(22);
+var _CanvasRenderer = __webpack_require__(23);
 
 var _CanvasRenderer2 = _interopRequireDefault(_CanvasRenderer);
 
@@ -16037,7 +16037,7 @@ Graphics._SPRITE_TEXTURE = null;
 
 exports.__esModule = true;
 
-var _BaseTexture2 = __webpack_require__(21);
+var _BaseTexture2 = __webpack_require__(22);
 
 var _BaseTexture3 = _interopRequireDefault(_BaseTexture2);
 
@@ -17787,7 +17787,7 @@ exports.__esModule = true;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _BaseTexture2 = __webpack_require__(21);
+var _BaseTexture2 = __webpack_require__(22);
 
 var _BaseTexture3 = _interopRequireDefault(_BaseTexture2);
 
@@ -21127,7 +21127,7 @@ var _WebGLManager2 = __webpack_require__(20);
 
 var _WebGLManager3 = _interopRequireDefault(_WebGLManager2);
 
-var _RenderTarget = __webpack_require__(23);
+var _RenderTarget = __webpack_require__(24);
 
 var _RenderTarget2 = _interopRequireDefault(_RenderTarget);
 
@@ -21828,7 +21828,7 @@ var _pixiGlCore = __webpack_require__(16);
 
 var _const = __webpack_require__(12);
 
-var _RenderTarget = __webpack_require__(23);
+var _RenderTarget = __webpack_require__(24);
 
 var _RenderTarget2 = _interopRequireDefault(_RenderTarget);
 
@@ -22806,7 +22806,7 @@ exports.default = PrimitiveShader;
 exports.__esModule = true;
 exports.default = buildPoly;
 
-var _buildLine = __webpack_require__(24);
+var _buildLine = __webpack_require__(25);
 
 var _buildLine2 = _interopRequireDefault(_buildLine);
 
@@ -22897,7 +22897,7 @@ function buildPoly(graphicsData, webGLData, webGLDataNativeLines) {
 exports.__esModule = true;
 exports.default = buildRectangle;
 
-var _buildLine = __webpack_require__(24);
+var _buildLine = __webpack_require__(25);
 
 var _buildLine2 = _interopRequireDefault(_buildLine);
 
@@ -22982,7 +22982,7 @@ var _earcut = __webpack_require__(59);
 
 var _earcut2 = _interopRequireDefault(_earcut);
 
-var _buildLine = __webpack_require__(24);
+var _buildLine = __webpack_require__(25);
 
 var _buildLine2 = _interopRequireDefault(_buildLine);
 
@@ -23139,7 +23139,7 @@ function quadraticBezierCurve(fromX, fromY, cpX, cpY, toX, toY) {
 exports.__esModule = true;
 exports.default = buildCircle;
 
-var _buildLine = __webpack_require__(24);
+var _buildLine = __webpack_require__(25);
 
 var _buildLine2 = _interopRequireDefault(_buildLine);
 
@@ -23236,7 +23236,7 @@ function buildCircle(graphicsData, webGLData, webGLDataNativeLines) {
 
 exports.__esModule = true;
 
-var _CanvasRenderer = __webpack_require__(22);
+var _CanvasRenderer = __webpack_require__(23);
 
 var _CanvasRenderer2 = _interopRequireDefault(_CanvasRenderer);
 
@@ -23879,7 +23879,7 @@ var _particles = __webpack_require__(61);
 
 var _particles2 = _interopRequireDefault(_particles);
 
-var _hero = __webpack_require__(25);
+var _hero = __webpack_require__(21);
 
 var _hero2 = _interopRequireDefault(_hero);
 
@@ -23992,7 +23992,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = act2;
 
-var _hero = __webpack_require__(25);
+var _hero = __webpack_require__(21);
 
 var _hero2 = _interopRequireDefault(_hero);
 
@@ -24115,7 +24115,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = act3;
 
-var _hero = __webpack_require__(25);
+var _hero = __webpack_require__(21);
 
 var _hero2 = _interopRequireDefault(_hero);
 
@@ -24213,7 +24213,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = act4;
 
-var _hero = __webpack_require__(25);
+var _hero = __webpack_require__(21);
 
 var _hero2 = _interopRequireDefault(_hero);
 
@@ -24292,55 +24292,6 @@ function act4(context) {
 /* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(145);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(2)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--2-1!../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../node_modules/sass-loader/lib/loader.js??ref--2-3!../../../node_modules/universal-alias-loader/index.js??ref--0!./home.sass", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js??ref--2-1!../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../node_modules/sass-loader/lib/loader.js??ref--2-3!../../../node_modules/universal-alias-loader/index.js??ref--0!./home.sass");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 145 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "/* colors */\n/* Spacing */\n/* Fonts */\n/* Effects */\n._2NnlA {\n  font-size: 30px;\n  margin-left: 80px; }\n\n._3f7uB {\n  margin-bottom: 70px; }\n\n._3f7uB:last-child {\n  margin-bottom: 0; }\n\n.HC8s1 {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  height: 100vh; }\n\n@media screen and (max-width: 1200px) {\n  .HC8s1 {\n    width: 100%;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    padding: 15px 15px;\n    height: auto; }\n  ._2NnlA {\n    margin-left: 0;\n    margin-top: 30px;\n    font-size: 23px; }\n  ._3f7uB {\n    margin-bottom: 30px; } }\n", ""]);
-
-// exports
-exports.locals = {
-	"texts": "_2NnlA",
-	"textBlock": "_3f7uB",
-	"home": "HC8s1"
-};
-
-/***/ }),
-/* 146 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
@@ -24349,7 +24300,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = act5;
 
-var _hero = __webpack_require__(25);
+var _hero = __webpack_require__(21);
 
 var _hero2 = _interopRequireDefault(_hero);
 
@@ -24393,6 +24344,55 @@ function act5(context) {
     };
 }
 
+/***/ }),
+/* 145 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(146);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(2)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--2-1!../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../node_modules/sass-loader/lib/loader.js??ref--2-3!../../../node_modules/universal-alias-loader/index.js??ref--0!./home.sass", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js??ref--2-1!../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../node_modules/sass-loader/lib/loader.js??ref--2-3!../../../node_modules/universal-alias-loader/index.js??ref--0!./home.sass");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "/* colors */\n/* Spacing */\n/* Fonts */\n/* Effects */\n._2NnlA {\n  font-size: 30px;\n  margin-left: 80px; }\n\n._3f7uB {\n  margin-bottom: 70px; }\n\n._3f7uB:last-child {\n  margin-bottom: 0; }\n\n.HC8s1 {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  height: 100vh; }\n\n@media screen and (max-width: 1200px) {\n  .HC8s1 {\n    width: 100%;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    padding: 15px 15px;\n    height: auto; }\n  ._2NnlA {\n    margin-left: 0;\n    margin-top: 30px;\n    font-size: 23px; }\n  ._3f7uB {\n    margin-bottom: 30px; } }\n", ""]);
+
+// exports
+exports.locals = {
+	"texts": "_2NnlA",
+	"textBlock": "_3f7uB",
+	"home": "HC8s1"
+};
+
 /***/ })
 ]);
-//# sourceMappingURL=0.js.map
+//# sourceMappingURL=home.js.map
