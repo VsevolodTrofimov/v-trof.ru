@@ -59,7 +59,7 @@ export default function act2(context) {
         
         currentScale += scaleStep
         context.hero.scaleOuter(currentScale)
-        console.log(currentScale)
+
         completedScaleSteps++
 
         if(context.hero.position.y === circleCenter.y + context.props.circleR)

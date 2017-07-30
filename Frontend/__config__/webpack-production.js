@@ -1,5 +1,8 @@
 const webpack = require('webpack')
 const webpackMerge = require('webpack-merge')
+
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin')
+const WebpackChunkHash = require('webpack-chunk-hash')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const RuntimeAnalyzerPlugin = require('webpack-runtime-analyzer')
 
@@ -8,7 +11,13 @@ const baseConfig = require('./webpack-base')
 const mergedConfig = webpackMerge(baseConfig, {
   devtool: false,
 
+  output: {
+    filename: 'static/[name]-[chunkhash].js'
+  },
+
   plugins: [
+    new WebpackCleanupPlugin(),
+    new WebpackChunkHash({algorithm: 'md5'}),
     new webpack.LoaderOptionsPlugin({minimize: true, debug: false}),
 
     new webpack.DefinePlugin({

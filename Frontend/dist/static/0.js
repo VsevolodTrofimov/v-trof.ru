@@ -11954,8 +11954,6 @@ exports.redrawBezier = redrawBezier;
 exports.makeBeziers = makeBeziers;
 var PIXI = __webpack_require__(17);
 
-function positionByAngle(angle, circleR) {}
-
 function redrawBezier(curve, props) {
     curve.clear();
 
@@ -12283,15 +12281,16 @@ var context = {
         heroInnerR: 8 * antialias,
         heroOuterR: 20 * antialias,
         heroLineStyle: [2 * antialias, 0xb96ac9],
-        heroScaleOuterSteps: 6,
+        heroScaleOuterSteps: 12,
 
         heroBeziers: 10,
         bezierMorphSteps: 120,
 
+        bezierResetDelaySteps: 10,
         neckTravelSteps: 190,
 
-        heroOuterRSpreadMax: 0.2,
-        heroOuterRSpreadSteps: 30
+        heroOuterRSpreadMax: 0.1,
+        heroOuterRSpreadSteps: 12
     },
     stage: {},
     changeText: function changeText() {},
@@ -24133,6 +24132,10 @@ function resetMorphTargets(beziers, morphSteps) {
 function act3(context) {
     var stepY = -context.props.neckLength / context.props.neckTravelSteps;
     var completedSteps = 0;
+    var beziersToMorph = 1;
+    var bezierResetDelayStepsCompelted = 0;
+    var i = void 0,
+        curve = void 0;
 
     context.changeText('...finally takes shape', 250);
 
@@ -24157,10 +24160,12 @@ function act3(context) {
 
     resetMorphTargets(context.beziers.children, context.props.bezierMorphSteps);
 
+    console.log(context.props.bezierResetDelaySteps);
     return function act3getFrame() {
         context.hero.y += stepY;
 
-        context.beziers.children.forEach(function (curve) {
+        for (i = 0; i < beziersToMorph; i++) {
+            curve = context.beziers.children[i];
             (0, _beziers.redrawBezier)(curve, {
                 // lineStyle: context.props.lineStyle,
                 cp1X: curve.cp1X + curve.morphStep.cp1X,
@@ -24169,7 +24174,14 @@ function act3(context) {
                 cp2X: curve.cp2X + curve.morphStep.cp2X,
                 cp2Y: curve.cp2Y + curve.morphStep.cp2Y
             });
-        });
+        }
+
+        bezierResetDelayStepsCompelted++;
+        if (bezierResetDelayStepsCompelted === context.props.bezierResetDelaySteps) {
+            bezierResetDelayStepsCompelted = 0;
+            console.log(beziersToMorph);
+            if (beziersToMorph < context.props.heroBeziers) beziersToMorph++;
+        }
 
         completedSteps++;
         if (completedSteps === context.props.neckTravelSteps) context.next();
@@ -24249,7 +24261,7 @@ function act2(context) {
 
         currentScale += scaleStep;
         context.hero.scaleOuter(currentScale);
-        console.log(currentScale);
+
         completedScaleSteps++;
 
         if (context.hero.position.y === circleCenter.y + context.props.circleR) context.next();
@@ -24312,4 +24324,4 @@ exports.locals = {
 
 /***/ })
 ]);
-//# sourceMappingURL=0-e11c4b4868c18a350136.js.map
+//# sourceMappingURL=0.js.map

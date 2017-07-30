@@ -1,8 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
 
-const WebpackCleanupPlugin = require('webpack-cleanup-plugin')
-const WebpackChunkHash = require('webpack-chunk-hash')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const paths = require('./utility/paths')(__dirname)
@@ -28,12 +26,9 @@ module.exports = {
   //output
   output: {
     path: paths.dist,
-    filename: 'static/[name]-[chunkhash].js'
+    filename: 'static/[name].js'
   },
   plugins: [
-    new WebpackCleanupPlugin(),
-    new WebpackChunkHash({algorithm: 'md5'}),
-
     new HtmlWebpackPlugin({
       title: 'Vsevolod Trofimov',
       template: paths.template,

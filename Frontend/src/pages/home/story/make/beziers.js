@@ -1,8 +1,5 @@
 const PIXI = require('pixi-reduced-to-graphics') 
 
-function positionByAngle(angle, circleR) {
-
-}
 
 export function redrawBezier(curve, props) {
     curve.clear()

@@ -46,15 +46,16 @@ const context = {
         heroInnerR: 8 * antialias,
         heroOuterR: 20 * antialias,
         heroLineStyle: [2 * antialias, 0xb96ac9],
-        heroScaleOuterSteps: 6,
+        heroScaleOuterSteps: 12,
         
         heroBeziers: 10,
         bezierMorphSteps: 120,
 
+        bezierResetDelaySteps: 10,
         neckTravelSteps: 190,
         
-        heroOuterRSpreadMax: 0.2,
-        heroOuterRSpreadSteps: 30
+        heroOuterRSpreadMax: 0.1,
+        heroOuterRSpreadSteps: 12
     },
     stage: {},
     changeText: () => {},

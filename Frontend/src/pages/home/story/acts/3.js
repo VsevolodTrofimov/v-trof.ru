@@ -24,6 +24,9 @@ function resetMorphTargets(beziers, morphSteps){
 export default function act3(context) {
     const stepY = -context.props.neckLength/context.props.neckTravelSteps
     let completedSteps = 0
+    let beziersToMorph = 1
+    let bezierResetDelayStepsCompelted = 0
+    let i, curve
 
     context.changeText('...finally takes shape', 250)
 
@@ -50,10 +53,12 @@ export default function act3(context) {
     resetMorphTargets(context.beziers.children,
                       context.props.bezierMorphSteps, )
 
+    console.log(context.props.bezierResetDelaySteps)
     return function act3getFrame() {
         context.hero.y += stepY
 
-        context.beziers.children.forEach(curve => {
+        for(i = 0; i < beziersToMorph; i++) {
+            curve = context.beziers.children[i]
             redrawBezier(curve, {
                 // lineStyle: context.props.lineStyle,
                 cp1X: curve.cp1X + curve.morphStep.cp1X,
@@ -62,7 +67,14 @@ export default function act3(context) {
                 cp2X: curve.cp2X + curve.morphStep.cp2X,
                 cp2Y: curve.cp2Y + curve.morphStep.cp2Y
             })
-        })
+        }
+
+        bezierResetDelayStepsCompelted++
+        if(bezierResetDelayStepsCompelted === context.props.bezierResetDelaySteps) {
+            bezierResetDelayStepsCompelted = 0
+            console.log(beziersToMorph)
+            if(beziersToMorph < context.props.heroBeziers) beziersToMorph++
+        }
 
         completedSteps++
         if(completedSteps === context.props.neckTravelSteps) context.next()
