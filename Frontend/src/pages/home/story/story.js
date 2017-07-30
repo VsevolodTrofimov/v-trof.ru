@@ -87,7 +87,7 @@ export default class Story extends Component {
         context.changeText = this.changeText.bind(this)
 
         //stage will start as +1 from here
-        this.currentAct = 3
+        this.currentAct = -1
         this.next()
 
         this.animate()

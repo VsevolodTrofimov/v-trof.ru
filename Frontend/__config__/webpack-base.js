@@ -1,13 +1,18 @@
 const webpack = require('webpack')
+const path = require('path')
+
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin')
+const WebpackChunkHash = require('webpack-chunk-hash')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const paths = require('./utility/paths')(__dirname)
 
+
 module.exports = {
   //input
   entry: {
-    index: paths.entry,
-    // home: paths.src + '/pages/home/home'
+    app: paths.entry,
+    vendor: ["preact"]
   },
 
   //transform
@@ -23,13 +28,24 @@ module.exports = {
   //output
   output: {
     path: paths.dist,
-    filename: 'static/[name].js'
+    filename: 'static/[name]-[chunkhash].js'
   },
   plugins: [
+    new WebpackCleanupPlugin(),
+    new WebpackChunkHash({algorithm: 'md5'}),
+
     new HtmlWebpackPlugin({
       title: 'Vsevolod Trofimov',
       template: paths.template,
-      filename: '../index.html'})
+      filename: 'index.html',
+      chunks: ['vendor', 'app']
+    }),
+    
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "vendor",
+      // filename: path.join(paths.dist, 'static/vendor.js'),
+      minChunks: Infinity,
+    })
   ],
 
   //dev
