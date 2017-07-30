@@ -2,7 +2,7 @@ import makeHero from '@thisPage/story/make/hero'
 import { makeBeziers, redrawBezier } from '@thisPage/story/make/beziers'
 
 let morphTarget, controlPoint, yMorph
-function setMorphTargets(beziers, morphFrames, boundary){
+function setMorphSteps(beziers, morphSteps, boundary){
     beziers.forEach(curve => {
         yMorph =  (Math.random() * 0.75 + 0.125) * boundary
         morphTarget = {
@@ -16,7 +16,7 @@ function setMorphTargets(beziers, morphFrames, boundary){
         for(controlPoint in morphTarget) {
             curve.morphStep[controlPoint] = (
                  morphTarget[controlPoint] - curve[controlPoint]
-            ) / morphFrames
+            ) / morphSteps
         }
     })
 }
@@ -29,7 +29,7 @@ function setCurrentPos(hero, angle, circleR, circleCenter) {
 
 
 export default function act2(context) {
-    const angleStep = Math.PI * 2 / context.props.lapFrames 
+    const angleStep = Math.PI * 2 / context.props.lapSteps 
 
     const circleCenter = {
         x: context.props.width/2 + context.props.circleR, 
@@ -38,12 +38,12 @@ export default function act2(context) {
 
     const scaleStep = (
         context.props.heroInnerR/context.props.heroInnerRSmall
-    ) / context.props.lapFrames
+    ) / context.props.lapSteps
     
     let angle = Math.PI * 1.5 //1.5 coz y is inverted
     let completedScales = 0
     let completedLaps = 0
-    let completedMorpthFrames = 0
+    let completedMorpthSteps = 0
 
     context.changeText('It grows and mutates', 500)
 
@@ -81,11 +81,11 @@ export default function act2(context) {
             completedScales++
         }
         
-        if(completedMorpthFrames === 0) {
-            setMorphTargets(
+        if(completedMorpthSteps === 0) {
+            setMorphSteps(
                 context.beziers.children,
-                context.props.bezierMorphFrames, 
-                context.props.heroOuterR * Math.sqrt(2)
+                context.props.bezierMorphSteps, 
+                context.props.heroOuterR * 1.5
             )
         }
 
@@ -100,9 +100,9 @@ export default function act2(context) {
             })
 
             //I've put it here accidentelly, but it's better this way
-            completedMorpthFrames++
-            if(completedMorpthFrames === context.props.bezierMorphFrames) {
-                completedMorpthFrames = 0
+            completedMorpthSteps++
+            if(completedMorpthSteps === context.props.bezierMorphSteps) {
+                completedMorpthSteps = 0
             }
         })
 

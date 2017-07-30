@@ -2,7 +2,7 @@ import makeHero from '@thisPage/story/make/hero'
 import { makeBeziers, redrawBezier } from '@thisPage/story/make/beziers'
 
 let morphTarget, controlPoint
-function resetMorphTargets(beziers, morphFrames){
+function resetMorphTargets(beziers, morphSteps){
     beziers.forEach(curve => {
         morphTarget = {
             cp1X: 0,
@@ -15,14 +15,14 @@ function resetMorphTargets(beziers, morphFrames){
         for(controlPoint in morphTarget) {
             curve.morphStep[controlPoint] = (
                  morphTarget[controlPoint] - curve[controlPoint]
-            ) / morphFrames
+            ) / morphSteps
         }
     })
 }
 
 
 export default function act3(context) {
-    const stepY = -context.props.neckLength/context.props.neckTravelFrames
+    const stepY = -context.props.neckLength/context.props.neckTravelSteps
     let completedSteps = 0
 
     context.changeText('...finally takes shape', 250)
@@ -48,7 +48,7 @@ export default function act3(context) {
     context.hero.y = context.props.neckLength + context.props.circleR
 
     resetMorphTargets(context.beziers.children,
-                      context.props.bezierMorphFrames, )
+                      context.props.bezierMorphSteps, )
 
     return function act3getFrame() {
         context.hero.y += stepY
@@ -65,7 +65,7 @@ export default function act3(context) {
         })
 
         completedSteps++
-        if(completedSteps === context.props.neckTravelFrames) context.next()
+        if(completedSteps === context.props.neckTravelSteps) context.next()
         
         return context.stage
     }

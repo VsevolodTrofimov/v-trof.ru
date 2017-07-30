@@ -18,7 +18,7 @@ const context = {
         numberOfParticles: 25,
         
         act0duration: 3500,
-        lapFrames: 300,
+        lapSteps: 300,
         lapsQuantity: 2,
 
         width: 300 * antialias,
@@ -46,12 +46,15 @@ const context = {
         heroInnerR: 8 * antialias,
         heroOuterR: 20 * antialias,
         heroLineStyle: [2 * antialias, 0xb96ac9],
-        heroScaleOuterFrames: 6,
+        heroScaleOuterSteps: 6,
         
         heroBeziers: 10,
-        bezierMorphFrames: 120,
+        bezierMorphSteps: 120,
 
-        neckTravelFrames: 190
+        neckTravelSteps: 190,
+        
+        heroOuterRSpreadMax: 0.2,
+        heroOuterRSpreadSteps: 30
     },
     stage: {},
     changeText: () => {},
@@ -84,7 +87,7 @@ export default class Story extends Component {
         context.changeText = this.changeText.bind(this)
 
         //stage will start as +1 from here
-        this.currentAct = -1
+        this.currentAct = 3
         this.next()
 
         this.animate()

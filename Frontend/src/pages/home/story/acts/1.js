@@ -83,8 +83,8 @@ export default function act1(context) {
         hero.children[0].alpha += alphaStep
         hero.y -= context.props.heroAscensionSpeed
 
-        if(heroScaleOuterDone <= context.props.heroScaleOuterFrames) {
-            hero.scaleOuter(heroScaleOuterDone/context.props.heroScaleOuterFrames)
+        if(heroScaleOuterDone <= context.props.heroScaleOuterSteps) {
+            hero.scaleOuter(heroScaleOuterDone/context.props.heroScaleOuterSteps)
             heroScaleOuterDone++
         }
 
