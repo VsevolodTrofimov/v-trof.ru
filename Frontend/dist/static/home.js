@@ -87,7 +87,7 @@ var LowerText = function LowerText() {
     return (0, _preact.h)(
         'div',
         { 'class': _home2.default.textBlock },
-        '\u0410\u0445 \u0434\u0430, \u042F ',
+        '\u0410\u0445 \u0434\u0430, \u042F \u2014 ',
         (0, _preact.h)(
             _link2.default,
             { url: '/about/' },
@@ -12248,16 +12248,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var PIXI = __webpack_require__(17);
 
-var antialias = 2;
+//parsing hex colors into pixi int colors
+for (var key in _story2.default) {
+    if (_story2.default[key][0] === '#' && key.indexOf('pixi') === 0) _story2.default[key] = parseInt(_story2.default[key].slice(1), 16);
+}
+
+var size = parseInt(_story2.default.pixiCanvasSize, 10) - parseInt(_story2.default.pixiPaddingInner, 10);
+var antialias = parseInt(_story2.default.pixiAntialias, 10);
 
 var heroSpeed = 1.2 * antialias;
-var circleR = 47 * antialias;
+var circleR = parseInt(_story2.default.pixiCircleR, 10) * antialias;
 
 var context = {
     props: {
         //initial setuop
-        width: 300 * antialias,
-        height: 300 * antialias,
+        width: size * antialias,
+        height: size * antialias,
 
         neckLength: 207 * antialias,
 
@@ -12267,23 +12273,23 @@ var context = {
 
         arrowSize: 7 * antialias,
 
-        lineStyle: [2 * antialias, 0x1e1e1e],
+        lineStyle: [2 * antialias, _story2.default.pixiNeutralColor],
 
         heroSpeed: heroSpeed,
         //act 0+
         act0Duration: 3500,
         numberOfParticles: 20,
         particleR: 2 * antialias,
-        particleColor: 0x1e1e1e,
+        particleColor: _story2.default.pixiNeutralColor,
 
         //act 1+
-        heroColor: 0xb96ac9,
+        heroColor: _story2.default.pixiHeroColor,
         heroAscensionSpeed: 2,
         heroInitialAlpha: 0.5,
         heroInnerRSmall: 4 * antialias,
         heroInnerR: 8 * antialias,
         heroOuterR: 20 * antialias,
-        heroLineStyle: [2 * antialias, 0xb96ac9],
+        heroLineStyle: [2 * antialias, _story2.default.pixiHeroColor],
         heroScaleOuterSteps: 12,
         spreadFactor: 100,
 
@@ -23767,10 +23773,16 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, "/* colors */\n/* Spacing */\n/* Fonts */\n/* Effects */\n._2Czlt {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  height: 590px;\n  width: 590px;\n  padding: 15px;\n  padding-top: 90px;\n  background: #fafafa;\n  border-radius: 15px;\n  border: 1px solid #eee;\n  -webkit-box-shadow: 0 5px 0 0 rgba(0, 0, 0, .17);\n          box-shadow: 0 5px 0 0 rgba(0, 0, 0, .17); }\n\n._1CW9W {\n  position: absolute;\n  top: 214px;\n  right: 0; }\n\n._1nwxC {\n  width: 360px;\n  height: 360px;\n  position: relative;\n  overflow: visible; }\n\n.o9GYy {\n  position: absolute;\n  top: -180px;\n  left: -180px;\n  width: 720px;\n  height: 720px;\n  -webkit-transform: scale(0.5);\n          transform: scale(0.5);\n  max-width: 200%; }\n\n._3PbzI {\n  font-family: \"Open Sans\";\n  font-size: 29px;\n  text-align: center;\n  width: 100%;\n  -webkit-transition: 0.25s ease;\n  transition: 0.25s ease; }\n\n@media (max-width: 650px) {\n  ._2Czlt {\n    width: 100%;\n    height: auto;\n    padding-bottom: 90px; } }\n", ""]);
+exports.push([module.i, "/* colors */\n/* Spacing */\n/* Fonts */\n/* Effects */._2Czlt {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  height: 590px;\n  width: 590px;\n  padding: 15px;\n  padding-top: 90px;\n  background: #fafafa;\n  border-radius: 15px;\n  border: 1px solid #eee;\n  -webkit-box-shadow: 0 5px 0 0 rgba(0, 0, 0, .17);\n          box-shadow: 0 5px 0 0 rgba(0, 0, 0, .17); }\n\n._1CW9W {\n  position: absolute;\n  top: 214px;\n  right: 0; }\n\n._1nwxC {\n  width: 360px;\n  height: 360px;\n  position: relative;\n  overflow: visible; }\n\n.o9GYy {\n  position: absolute;\n  top: -180px;\n  left: -180px;\n  width: 720px;\n  height: 720px;\n  -webkit-transform: scale(0.5);\n          transform: scale(0.5);\n  max-width: 200%; }\n\n._3PbzI {\n  font-family: \"Open Sans\";\n  font-size: 29px;\n  text-align: center;\n  width: 100%;\n  -webkit-transition: 0.25s ease;\n  transition: 0.25s ease; }\n\n@media (max-width: 650px) {\n  ._2Czlt {\n    width: 100%;\n    height: auto;\n    padding-bottom: 90px; } }\n", ""]);
 
 // exports
 exports.locals = {
+	"pixiCanvasSize": "360px",
+	"pixiAntialias": "2",
+	"pixiPaddingInner": "30px",
+	"pixiCircleR": "47px",
+	"pixiNeutralColor": "#1e1e1e",
+	"pixiHeroColor": "#b96ac9",
 	"PixiContainer": "_2Czlt",
 	"arrowEnd": "_1CW9W",
 	"PixiHostWrapper": "_1nwxC",

@@ -1,12 +1,22 @@
 @import '@utils/vars.sass'
 
+$pixi-canvas-size: 360px
+$pixi-antialias: 2
 $pixi-padding-inner: 30px
 $pixi-circleR: 47px
+
 $pixi-padding-outer: 90px
 
-$pixi-canvas-size: 720px
-
 $card-size: 590px
+
+@value pixiCanvasSize #{$pixi-canvas-size}
+@value pixiAntialias #{$pixi-antialias}
+@value pixiPaddingInner #{$pixi-padding-inner}
+
+@value pixiCircleR #{$pixi-circleR}
+@value pixiNeutralColor #{$color-black}
+@value pixiHeroColor #{$color-accent}
+
 
 .PixiContainer
     position: relative
@@ -32,20 +42,22 @@ $card-size: 590px
     right: 0
 
 .PixiHostWrapper
-    width: $pixi-canvas-size/2
-    height: $pixi-canvas-size/2
+    width: $pixi-canvas-size
+    height: $pixi-canvas-size
     position: relative
     overflow: visible
 
 .PixiHost
     position: absolute
-    top: -$pixi-canvas-size/4
-    left: -$pixi-canvas-size/4
-    width: $pixi-canvas-size
-    height: $pixi-canvas-size
-    transform: scale(0.5)
+    
+    top: -$pixi-canvas-size * ($pixi-antialias - 1)/2
+    left: -$pixi-canvas-size * ($pixi-antialias - 1)/2
+    
+    width: $pixi-canvas-size * $pixi-antialias
+    height: $pixi-canvas-size * $pixi-antialias
+    transform: scale(1/$pixi-antialias)
 
-    max-width: 200%
+    max-width: 100% * $pixi-antialias
 
 
 .PixiContainerText

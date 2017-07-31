@@ -13,16 +13,23 @@ import act4 from './acts/4'
 import act5 from './acts/5'
 
 
-const antialias = 2
+//parsing hex colors into pixi int colors
+for(let key in styles) {
+    if(styles[key][0] === '#' && key.indexOf('pixi') === 0) 
+        styles[key] = parseInt(styles[key].slice(1), 16) 
+}
+
+const size = parseInt(styles.pixiCanvasSize, 10) - parseInt(styles.pixiPaddingInner, 10)
+const antialias = parseInt(styles.pixiAntialias, 10)
 
 const heroSpeed = 1.2 * antialias
-const circleR = 47 * antialias
+const circleR = parseInt(styles.pixiCircleR, 10) * antialias
 
 const context = {
     props: {
         //initial setuop
-        width: 300 * antialias,
-        height: 300 * antialias,
+        width: size * antialias,
+        height: size * antialias,
 
         neckLength: 207 * antialias,
 
@@ -32,23 +39,23 @@ const context = {
 
         arrowSize: 7 * antialias,
         
-        lineStyle: [2 * antialias, 0x1e1e1e],
+        lineStyle: [2 * antialias, styles.pixiNeutralColor],
 
         heroSpeed: heroSpeed,
         //act 0+
         act0Duration: 3500,
         numberOfParticles: 20,
         particleR: 2 * antialias,
-        particleColor: 0x1e1e1e,
+        particleColor: styles.pixiNeutralColor,
 
         //act 1+
-        heroColor: 0xb96ac9,
+        heroColor: styles.pixiHeroColor,
         heroAscensionSpeed: 2,
         heroInitialAlpha: 0.5,
         heroInnerRSmall: 4 * antialias,
         heroInnerR: 8 * antialias,
         heroOuterR: 20 * antialias,
-        heroLineStyle: [2 * antialias, 0xb96ac9],
+        heroLineStyle: [2 * antialias, styles.pixiHeroColor],
         heroScaleOuterSteps: 12,
         spreadFactor: 100,
         
