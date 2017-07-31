@@ -49,7 +49,7 @@ export default function act2(context) {
     let completedMorpthSteps = 0
     let completedSteps = 0
 
-    context.changeText('It grows and mutates', 500)
+    context.changeText('Она растет и преображается', 500)
 
     if( ! context.hero) {
         context.hero = makeHero({

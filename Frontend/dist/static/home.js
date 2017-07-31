@@ -54,7 +54,7 @@ var UpperText = function UpperText(props) {
     return (0, _preact.h)(
         'div',
         { 'class': _home2.default.textBlock },
-        'This is how ',
+        '\u0422\u0430\u043A \u043F\u043E\u044F\u0432\u0438\u043B\u0441\u044F ',
         (0, _preact.h)(
             _link2.default,
             { url: props.project.url,
@@ -64,21 +64,21 @@ var UpperText = function UpperText(props) {
             ' ',
             props.project.title
         ),
-        ' was born. ',
+        '. ',
         (0, _preact.h)('br', null),
-        'See ',
+        '\u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C ',
         (0, _preact.h)(
             _link2.default,
             { url: '/projects/' },
-            ' other projects '
+            ' \u043E\u0441\u0442\u0430\u043B\u044C\u043D\u044B\u0435 \u043F\u0440\u043E\u0435\u043A\u0442\u044B '
         ),
         ' ',
         (0, _preact.h)('br', null),
-        'Or ',
+        '\u0418\u043B\u0438 ',
         (0, _preact.h)(
             _link2.default,
             { url: '/contact/' },
-            ' make the next one yours '
+            ' \u0441\u0434\u0435\u043B\u0430\u0442\u044C \u0441\u043B\u0435\u0434\u0443\u0449\u0438\u0439 \u0432\u0430\u0448\u0438\u043C '
         )
     );
 };
@@ -87,17 +87,17 @@ var LowerText = function LowerText() {
     return (0, _preact.h)(
         'div',
         { 'class': _home2.default.textBlock },
-        'Btw, I am ',
+        '\u0410\u0445 \u0434\u0430, \u042F ',
         (0, _preact.h)(
             _link2.default,
             { url: '/about/' },
-            ' Vesevolod Trofimov '
+            ' \u0422\u0440\u043E\u0444\u0438\u043C\u043E\u0432 \u0412\u0441\u0435\u0432\u043E\u043B\u043E\u0434 '
         ),
         ' ',
         (0, _preact.h)('br', null),
-        'Frontend Developer & UX designer ',
+        'Frontend \u0440\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u0447\u0438\u043A & UX \u0434\u0438\u0437\u0430\u0439\u043D\u0435\u0440 ',
         (0, _preact.h)('br', null),
-        'based in St. Petersburg, Russia.'
+        '\u0438\u0437 \u0421\u0430\u043D\u043A\u0442-\u041F\u0435\u0442\u0435\u0440\u0431\u0443\u0440\u0433\u0430.'
     );
 };
 
@@ -12325,16 +12325,34 @@ var Story = function (_Component) {
 
         _this.animate = _this.animate.bind(_this);
         _this.next = _this.next.bind(_this);
+        _this.start = _this.start.bind(_this);
         _this.end = _this.end.bind(_this);
-
-        //first act will be +1 from this value
-        _this.currentAct = -1;
         return _this;
     }
 
     _createClass(Story, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            this.start();
+        }
+    }, {
+        key: 'changeText',
+        value: function changeText(text, duration) {
+            var self = this;
+            duration = duration || 150;
+            self.textHost.style.opacity = 0;
+            self.textHost.style.transitionDuration = duration + 'ms';
+            setTimeout(function () {
+                self.textHost.innerHTML = text;
+                self.textHost.style.opacity = 1;
+            }, duration);
+        }
+    }, {
+        key: 'start',
+        value: function start() {
+            //first act will be +1 from this value
+            this.currentAct = -1;
+
             this.renderer = PIXI.autoDetectRenderer(context.props.width + context.props.padding * 2, context.props.height + context.props.padding * 2, {
                 transparent: true,
                 antialias: true
@@ -12349,18 +12367,6 @@ var Story = function (_Component) {
             this.next();
 
             this.animate();
-        }
-    }, {
-        key: 'changeText',
-        value: function changeText(text, duration) {
-            var self = this;
-            duration = duration || 150;
-            self.textHost.style.opacity = 0;
-            self.textHost.style.transitionDuration = duration + 'ms';
-            setTimeout(function () {
-                self.textHost.innerHTML = text;
-                self.textHost.style.opacity = 1;
-            }, duration);
         }
     }, {
         key: 'next',
@@ -23761,7 +23767,7 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, "/* colors */\n/* Spacing */\n/* Fonts */\n/* Effects */\n._2Czlt {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  height: 590px;\n  width: 590px;\n  padding: 5px;\n  padding-top: 90px;\n  background: #fafafa;\n  border-radius: 15px;\n  border: 1px solid #eee;\n  -webkit-box-shadow: 0 5px 0 0 rgba(0, 0, 0, .17);\n          box-shadow: 0 5px 0 0 rgba(0, 0, 0, .17); }\n\n._1CW9W {\n  position: absolute;\n  top: 214px;\n  right: 0; }\n\n._1nwxC {\n  width: 360px;\n  height: 360px;\n  position: relative;\n  overflow: visible; }\n\n.o9GYy {\n  position: absolute;\n  top: -180px;\n  left: -180px;\n  width: 720px;\n  height: 720px;\n  -webkit-transform: scale(0.5);\n          transform: scale(0.5);\n  max-width: 200%; }\n\n._3PbzI {\n  font-family: \"Open Sans\";\n  font-size: 29px;\n  text-align: center;\n  width: 100%;\n  -webkit-transition: 0.25s ease;\n  transition: 0.25s ease; }\n\n@media (max-width: 650px) {\n  ._2Czlt {\n    width: 100%;\n    height: auto;\n    padding-bottom: 90px; } }\n", ""]);
+exports.push([module.i, "/* colors */\n/* Spacing */\n/* Fonts */\n/* Effects */\n._2Czlt {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  height: 590px;\n  width: 590px;\n  padding: 15px;\n  padding-top: 90px;\n  background: #fafafa;\n  border-radius: 15px;\n  border: 1px solid #eee;\n  -webkit-box-shadow: 0 5px 0 0 rgba(0, 0, 0, .17);\n          box-shadow: 0 5px 0 0 rgba(0, 0, 0, .17); }\n\n._1CW9W {\n  position: absolute;\n  top: 214px;\n  right: 0; }\n\n._1nwxC {\n  width: 360px;\n  height: 360px;\n  position: relative;\n  overflow: visible; }\n\n.o9GYy {\n  position: absolute;\n  top: -180px;\n  left: -180px;\n  width: 720px;\n  height: 720px;\n  -webkit-transform: scale(0.5);\n          transform: scale(0.5);\n  max-width: 200%; }\n\n._3PbzI {\n  font-family: \"Open Sans\";\n  font-size: 29px;\n  text-align: center;\n  width: 100%;\n  -webkit-transition: 0.25s ease;\n  transition: 0.25s ease; }\n\n@media (max-width: 650px) {\n  ._2Czlt {\n    width: 100%;\n    height: auto;\n    padding-bottom: 90px; } }\n", ""]);
 
 // exports
 exports.locals = {
@@ -23828,7 +23834,7 @@ function act0(context) {
 
     circleCenter = { x: context.props.circleR, y: context.props.circleR };
 
-    context.changeText('Many ideas wander in my mind');
+    context.changeText('Много идей обитает у меня в голове');
 
     if (!context.particles) {
         context.particles = (0, _particles2.default)(context.props);
@@ -23914,7 +23920,7 @@ function act1(context) {
 
     circleCenter = { x: context.props.circleR, y: context.props.circleR };
 
-    context.changeText('Then one takes over');
+    context.changeText('Иногда, одна вытесняет другие');
 
     if (!context.hero) {
         context.hero = (0, _hero2.default)({
@@ -24044,7 +24050,7 @@ function act2(context) {
     var completedMorpthSteps = 0;
     var completedSteps = 0;
 
-    context.changeText('It grows and mutates', 500);
+    context.changeText('Она растет и преображается', 500);
 
     if (!context.hero) {
         context.hero = (0, _hero2.default)({
@@ -24151,7 +24157,7 @@ function act3(context) {
     var i = void 0,
         curve = void 0;
 
-    context.changeText('...finally takes shape', 250);
+    context.changeText('Принимает форму', 250);
 
     if (!context.hero) {
         context.hero = (0, _hero2.default)({
@@ -24249,7 +24255,7 @@ function act4(context) {
     var maxSpread = context.props.heroOuterRSpreadMax;
     var completedSteps = 0;
 
-    context.changeText('...gets adjusted', 250);
+    context.changeText('Бывает, её нужно подправить', 250);
 
     if (!context.hero) {
         context.hero = (0, _hero2.default)({
@@ -24315,7 +24321,7 @@ function act5(context) {
 
     var stepX = context.props.heroSpeed;
 
-    context.changeText('And becomes public', 150);
+    context.changeText('Наконец, она становится доступной для остальных', 150);
 
     if (!context.hero) {
         context.hero = (0, _hero2.default)({

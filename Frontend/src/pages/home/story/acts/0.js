@@ -34,7 +34,7 @@ export default function act0(context) {
 
     circleCenter = {x: context.props.circleR, y: context.props.circleR}
 
-    context.changeText('Many ideas wander in my mind')
+    context.changeText('Много идей обитает у меня в голове')
 
     if( ! context.particles) {
         context.particles = makeParticles(context.props)

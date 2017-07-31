@@ -81,13 +81,29 @@ export default class Story extends Component {
         super(props)
         this.animate = this.animate.bind(this)
         this.next = this.next.bind(this)
+        this.start = this.start.bind(this)
         this.end = this.end.bind(this)
-        
-        //first act will be +1 from this value
-        this.currentAct = -1
     }
 
     componentDidMount() {
+        this.start()
+    }
+
+    changeText(text, duration) {
+        let self = this
+        duration = duration || 150
+        self.textHost.style.opacity = 0
+        self.textHost.style.transitionDuration = duration + 'ms'
+        setTimeout(() => {
+            self.textHost.innerHTML = text
+            self.textHost.style.opacity = 1
+        }, duration)
+    }
+
+    start() {
+        //first act will be +1 from this value
+        this.currentAct = -1
+
         this.renderer = PIXI.autoDetectRenderer(
             context.props.width + context.props.padding * 2, 
             context.props.height + context.props.padding * 2, {
@@ -104,17 +120,6 @@ export default class Story extends Component {
         this.next()
 
         this.animate()
-    }
-
-    changeText(text, duration) {
-        let self = this
-        duration = duration || 150
-        self.textHost.style.opacity = 0
-        self.textHost.style.transitionDuration = duration + 'ms'
-        setTimeout(() => {
-            self.textHost.innerHTML = text
-            self.textHost.style.opacity = 1
-        }, duration)
     }
 
     next() {

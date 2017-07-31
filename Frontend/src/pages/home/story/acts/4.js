@@ -31,7 +31,7 @@ export default function act4(context) {
     let maxSpread = context.props.heroOuterRSpreadMax
     let completedSteps = 0
 
-    context.changeText('...gets adjusted', 250)
+    context.changeText('Бывает, её нужно подправить', 250)
 
     if( ! context.hero) {
         context.hero = makeHero({

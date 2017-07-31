@@ -28,7 +28,7 @@ export default function act1(context) {
 
     circleCenter = {x: context.props.circleR, y: context.props.circleR}
 
-    context.changeText('Then one takes over')
+    context.changeText('Иногда, одна вытесняет другие')
 
     if( ! context.hero) {
         context.hero = makeHero({

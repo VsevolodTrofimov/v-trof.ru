@@ -10,19 +10,19 @@ let upperTextProjectsLink
 
 let UpperText = (props) => (
     <div class={styles.textBlock}>
-        This is how <Link url={props.project.url} 
+        Так появился <Link url={props.project.url} 
             ref={link => upperTextProjectsLink = link}> {props.project.title} 
-        </Link> was born. <br />
-        See <Link url='/projects/'> other projects </Link> <br />
-        Or <Link url='/contact/'> make the next one yours </Link>
+        </Link>. <br />
+        Посмотреть <Link url='/projects/'> остальные проекты </Link> <br />
+        Или <Link url='/contact/'> сделать следущий вашим </Link>
     </div>
 )
 
 let LowerText = () => (
     <div class={styles.textBlock}>
-        Btw, I am <Link url='/about/'> Vesevolod Trofimov </Link> <br />
-        Frontend Developer & UX designer <br />
-        based in St. Petersburg, Russia.
+        Ах да, Я <Link url='/about/'> Трофимов Всеволод </Link> <br />
+        Frontend разработчик & UX дизайнер <br />
+        из Санкт-Петербурга.
     </div>
 )
 

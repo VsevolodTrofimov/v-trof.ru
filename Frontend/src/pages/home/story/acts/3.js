@@ -30,7 +30,7 @@ export default function act3(context) {
     let bezierResetDelayStepsCompelted = 0
     let i, curve
 
-    context.changeText('...finally takes shape', 250)
+    context.changeText('Принимает форму', 250)
 
     if( ! context.hero) {
         context.hero = makeHero({
