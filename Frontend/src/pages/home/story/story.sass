@@ -1,19 +1,16 @@
+@import '@thisPage/story/utils/vars.sass'
 @import '@utils/vars.sass'
-
-$pixi-canvas-size: 360px
-$pixi-antialias: 2
-$pixi-padding-inner: 30px
-$pixi-circleR: 47px
-
-$pixi-padding-outer: 90px
-
-$card-size: 590px
 
 @value pixiCanvasSize #{$pixi-canvas-size}
 @value pixiAntialias #{$pixi-antialias}
 @value pixiPaddingInner #{$pixi-padding-inner}
 
-@value pixiCircleR #{$pixi-circleR}
+@value pixiLineWidth #{$pixi-line-width}
+
+@value pixiCircleR #{$pixi-circle-r}
+@value pixiHeroOuterR #{$pixi-hero-outer-r}
+@value pixiHeroInnerR #{$pixi-hero-inner-r}
+
 @value pixiNeutralColor #{$color-black}
 @value pixiHeroColor #{$color-accent}
 
@@ -36,10 +33,11 @@ $card-size: 590px
     
     box-shadow: $box-shadow-flat
 
-.arrowEnd 
+.heroEndPos 
     position: absolute
-    top: $pixi-padding-inner + $pixi-circleR * 2 + $pixi-padding-outer
-    right: 0
+    top: $pixi-padding-inner + $pixi-circle-r * 2 + $pixi-padding-outer
+    left: 50%
+    margin-left: -$pixi-circle-r - $pixi-line-width
 
 .PixiHostWrapper
     width: $pixi-canvas-size

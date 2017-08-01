@@ -1,0 +1,79 @@
+@import '@utils/vars.sass'
+
+@import '@thisPage/story/utils/vars.sass'
+
+$hero-inner-shift: $pixi-hero-outer-r - $pixi-hero-inner-r 
+$hero-size: $pixi-hero-outer-r * 2 + $pixi-line-width
+
+@value heroSize #{$hero-size}
+
+.wrapper
+    position: absolute
+    height: 100vh
+    width: 100vw
+    overflow-x: hidden
+    overflow-y: visible
+    pointer-events: none
+    z-index: 5
+    // background: rgba(0,0,0,.1)
+
+.hero
+    position: absolute
+    width: $hero-size
+    height: $hero-size
+    border: $pixi-line-width solid $color-accent
+    border-radius: 50%
+    z-index: 1
+    &:after
+        // inner circle
+        content: ''
+        display: block
+        width: $pixi-hero-inner-r * 2
+        height: $pixi-hero-inner-r * 2
+
+        position: absolute
+        left: 50%
+        top: 50%
+        margin: -$pixi-hero-inner-r 0 0 0-$pixi-hero-inner-r
+
+        border-radius: 50%
+        background: $color-accent
+
+.trailMask
+    position: absolute
+    overflow: hidden
+    height: $hero-size
+    width: 100%
+    z-index: 0
+    // background: rgba(0,0,0,.1)
+
+.trail
+    position: absolute
+    top: 0
+    &:before
+        content: ''
+        display: block
+        position: absolute
+        top: 0
+        left: 0
+        width: $hero-size
+        height: $hero-size
+        background: $color-main
+        border-radius: 50%
+        z-index: 2
+    &:after
+        // outer circle
+        content: ''
+        display: block
+        position: absolute
+        top: 0
+        left: $hero-size/2
+        height: $hero-size
+        width: 100vw
+        margin-left: -100vw
+        background: $color-accent
+        z-index: 1
+
+
+.trail, .hero
+    transition: 1s ease-in

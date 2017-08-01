@@ -29,12 +29,9 @@ export default function act5(context) {
 
 
     return function act5getFrame() {
-        context.hero.x += stepX
-        
-        if(context.hero.position.x >= circleCenter.x + context.props.circleR * 2) {
-            context.hero.visible = false
-            context.next()
-        }
+        context.hero.visible = false
+        // context.hero.alpha = 0.4
+        context.next()
 
         return context.stage
     }

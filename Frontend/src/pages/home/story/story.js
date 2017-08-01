@@ -19,11 +19,16 @@ for(let key in styles) {
         styles[key] = parseInt(styles[key].slice(1), 16) 
 }
 
-const size = parseInt(styles.pixiCanvasSize, 10) - parseInt(styles.pixiPaddingInner, 10)
+const lineWidth = parseInt(styles.pixiLineWidth, 10)
+const padding = parseInt(styles.pixiPaddingInner, 10)
+const size = parseInt(styles.pixiCanvasSize, 10) - padding
 const antialias = parseInt(styles.pixiAntialias, 10)
 
-const heroSpeed = 1.2 * antialias
-const circleR = parseInt(styles.pixiCircleR, 10) * antialias
+const heroSpeed = 1.2
+
+const circleR = parseInt(styles.pixiCircleR, 10)
+const heroOuterR = parseInt(styles.pixiHeroOuterR, 10)
+const heroInnerR = parseInt(styles.pixiHeroInnerR, 10)
 
 const context = {
     props: {
@@ -33,15 +38,15 @@ const context = {
 
         neckLength: 207 * antialias,
 
-        padding: 30 * antialias,
+        padding: padding * antialias,
 
-        circleR: circleR,
+        circleR: circleR * antialias,
 
         arrowSize: 7 * antialias,
         
-        lineStyle: [2 * antialias, styles.pixiNeutralColor],
+        lineStyle: [lineWidth * antialias, styles.pixiNeutralColor],
 
-        heroSpeed: heroSpeed,
+        heroSpeed: heroSpeed * antialias,
         //act 0+
         act0Duration: 3500,
         numberOfParticles: 20,
@@ -53,9 +58,9 @@ const context = {
         heroAscensionSpeed: 2,
         heroInitialAlpha: 0.5,
         heroInnerRSmall: 4 * antialias,
-        heroInnerR: 8 * antialias,
-        heroOuterR: 20 * antialias,
-        heroLineStyle: [2 * antialias, styles.pixiHeroColor],
+        heroInnerR: heroInnerR * antialias,
+        heroOuterR: heroOuterR * antialias,
+        heroLineStyle: [lineWidth * antialias, styles.pixiHeroColor],
         heroScaleOuterSteps: 12,
         spreadFactor: 100,
         
@@ -81,7 +86,7 @@ const context = {
 }
 
 const pause = () => () => context.stage
-const acts = [act0, act1, act2, act3, act4, act5, pause]
+const acts = [act0, act1, act2, act3, act4, act5]
 
 export default class Story extends Component {
     constructor(props) {
@@ -90,27 +95,10 @@ export default class Story extends Component {
         this.next = this.next.bind(this)
         this.start = this.start.bind(this)
         this.end = this.end.bind(this)
+        this.changeText = this.changeText.bind(this)
     }
 
     componentDidMount() {
-        this.start()
-    }
-
-    changeText(text, duration) {
-        let self = this
-        duration = duration || 150
-        self.textHost.style.opacity = 0
-        self.textHost.style.transitionDuration = duration + 'ms'
-        setTimeout(() => {
-            self.textHost.innerHTML = text
-            self.textHost.style.opacity = 1
-        }, duration)
-    }
-
-    start() {
-        //first act will be +1 from this value
-        this.currentAct = -1
-
         this.renderer = PIXI.autoDetectRenderer(
             context.props.width + context.props.padding * 2, 
             context.props.height + context.props.padding * 2, {
@@ -118,14 +106,35 @@ export default class Story extends Component {
             antialias: true
         })
         this.pixiHost.appendChild(this.renderer.view)
-        context.stage = makeStage(context.props)
 
+        this.start()
+    }
+
+    changeText(text, duration) {
+        let self = this
+        duration = duration || 150
+        self.text.style.opacity = 0
+        self.text.style.transitionDuration = duration + 'ms'
+        setTimeout(() => {
+            self.text.innerHTML = text
+            self.text.style.opacity = 1
+        }, duration)
+    }
+
+    start() {
+        //first act will be +1 from this value
+        this.currentAct = -1
+
+        context.stage = makeStage(context.props)
+        context.hero = undefined
+        context.beziers = undefined
+        context.particles = undefined
         //settign initial context
         context.next = this.next
-        context.changeText = this.changeText.bind(this)
+        context.changeText = this.changeText
 
+        this.continueAnumation = true
         this.next()
-
         this.animate()
     }
 
@@ -133,6 +142,7 @@ export default class Story extends Component {
         this.currentAct++
         if(acts.length <= this.currentAct) {
             this.end()
+            this.continueAnumation = false
         } else {
             this.currentActRender = acts[this.currentAct](context)
         }
@@ -140,26 +150,24 @@ export default class Story extends Component {
 
     animate() {
         this.renderer.render(this.currentActRender())
-        this.frame = requestAnimationFrame(this.animate)
+        if(this.continueAnumation) requestAnimationFrame(this.animate)
     }
 
     end() {
-        // this.props.end()
+        this.props.onEnd(this.start)
     }
 
     render() {
         return (
             <div class={styles.PixiContainer}>
                 <div class={styles.PixiHostWrapper}>
-                    <div ref={(host) => { this.pixiHost = host }}
+                    <div ref={host => this.pixiHost = host}
                         class={styles.PixiHost}></div>
                 </div>
                 
-                <div ref={(arrowEnd) => { this.arrowEnd = arrowEnd }}
-                     class={styles.arrowEnd}
-                     id="story-arrow-end"></div>
+                <div ref={heroEndPos => this.heroEndPos = heroEndPos} class={styles.heroEndPos} />
                 
-                <div ref={(host) => { this.textHost = host }} 
+                <div ref={text => this.text = text} 
                      class={styles.PixiContainerText} 
                      id='story-text'>Starting...</div>
             </div>

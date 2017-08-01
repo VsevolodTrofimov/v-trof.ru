@@ -22,7 +22,7 @@ export default function act4(context) {
     }
 
     const lastAdjustSteps = Math.floor(context.props.lapSteps/2)
-    const endSteps = Math.floor(context.props.lapSteps * 0.75)
+    const endSteps = Math.ceil(context.props.lapSteps * 0.75)
     
     let angle = 0
     let scaleStep = 0

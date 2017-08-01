@@ -36,7 +36,11 @@ var _story = __webpack_require__(69);
 
 var _story2 = _interopRequireDefault(_story);
 
-var _home = __webpack_require__(145);
+var _heroesWithTrails = __webpack_require__(151);
+
+var _heroesWithTrails2 = _interopRequireDefault(_heroesWithTrails);
+
+var _home = __webpack_require__(148);
 
 var _home2 = _interopRequireDefault(_home);
 
@@ -49,6 +53,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var upperTextProjectsLink = void 0;
+var masks = void 0;
 
 var UpperText = function UpperText(props) {
     return (0, _preact.h)(
@@ -107,22 +112,33 @@ var Home = function (_Component) {
     function Home(props) {
         _classCallCheck(this, Home);
 
-        return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+
+        _this.lastStoryAct = _this.lastStoryAct.bind(_this);
+        return _this;
     }
 
     _createClass(Home, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var texts = this.texts;
-            var arrowEnd = document.getElementById('story-arrow-end');
+            var self = this;
+            var storyEnd = this.story.heroEndPos;
+            var storyText = this.story.text;
 
             function reAlign() {
-                texts.style.transform = '';
+                self.upperText.base.style.transform = '';
+                self.lowerText.base.style.transform = '';
 
                 if (document.body.getBoundingClientRect().width < 1200) return 0;
 
-                (0, _align2.default)(texts, arrowEnd, {
+                (0, _align2.default)(self.upperText.base, storyEnd, {
                     by: upperTextProjectsLink.base,
+                    to: 'center',
+                    apply: true
+                });
+
+                (0, _align2.default)(self.lowerText.base, storyText, {
+                    by: self.lowerText.base,
                     to: 'center',
                     apply: true
                 });
@@ -132,9 +148,24 @@ var Home = function (_Component) {
             window.onresize = reAlign;
         }
     }, {
+        key: 'lastStoryAct',
+        value: function lastStoryAct(cb) {
+            var _this2 = this;
+
+            var storyEnd = this.story.heroEndPos;
+            var storyEndRect = storyEnd.getBoundingClientRect();
+            var storyRect = this.story.base.getBoundingClientRect();
+
+            this.heroesWithTrails.run(storyEndRect.top, storyEndRect.left, storyRect.left + storyRect.width);
+            setTimeout(function () {
+                _this2.heroesWithTrails.flush();
+                cb();
+            }, 3000);
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             var project = {
                 url: '/about/',
@@ -144,14 +175,22 @@ var Home = function (_Component) {
             return (0, _preact.h)(
                 'div',
                 { 'class': _home2.default.home },
-                (0, _preact.h)(_story2.default, null),
+                (0, _preact.h)(_heroesWithTrails2.default, { ref: function ref(el) {
+                        return _this3.heroesWithTrails = el;
+                    } }),
+                (0, _preact.h)(_story2.default, { ref: function ref(story) {
+                        return _this3.story = story;
+                    }, onEnd: this.lastStoryAct }),
                 (0, _preact.h)(
                     'div',
-                    { ref: function ref(texts) {
-                            _this2.texts = texts;
-                        }, 'class': _home2.default.texts },
-                    (0, _preact.h)(UpperText, { project: project }),
-                    (0, _preact.h)(LowerText, null)
+                    { 'class': _home2.default.texts },
+                    (0, _preact.h)(UpperText, { ref: function ref(el) {
+                            return _this3.upperText = el;
+                        },
+                        project: project }),
+                    (0, _preact.h)(LowerText, { ref: function ref(el) {
+                            return _this3.lowerText = el;
+                        } })
                 )
             );
         }
@@ -12253,11 +12292,16 @@ for (var key in _story2.default) {
     if (_story2.default[key][0] === '#' && key.indexOf('pixi') === 0) _story2.default[key] = parseInt(_story2.default[key].slice(1), 16);
 }
 
-var size = parseInt(_story2.default.pixiCanvasSize, 10) - parseInt(_story2.default.pixiPaddingInner, 10);
+var lineWidth = parseInt(_story2.default.pixiLineWidth, 10);
+var padding = parseInt(_story2.default.pixiPaddingInner, 10);
+var size = parseInt(_story2.default.pixiCanvasSize, 10) - padding;
 var antialias = parseInt(_story2.default.pixiAntialias, 10);
 
-var heroSpeed = 1.2 * antialias;
-var circleR = parseInt(_story2.default.pixiCircleR, 10) * antialias;
+var heroSpeed = 1.2;
+
+var circleR = parseInt(_story2.default.pixiCircleR, 10);
+var heroOuterR = parseInt(_story2.default.pixiHeroOuterR, 10);
+var heroInnerR = parseInt(_story2.default.pixiHeroInnerR, 10);
 
 var context = {
     props: {
@@ -12267,15 +12311,15 @@ var context = {
 
         neckLength: 207 * antialias,
 
-        padding: 30 * antialias,
+        padding: padding * antialias,
 
-        circleR: circleR,
+        circleR: circleR * antialias,
 
         arrowSize: 7 * antialias,
 
-        lineStyle: [2 * antialias, _story2.default.pixiNeutralColor],
+        lineStyle: [lineWidth * antialias, _story2.default.pixiNeutralColor],
 
-        heroSpeed: heroSpeed,
+        heroSpeed: heroSpeed * antialias,
         //act 0+
         act0Duration: 3500,
         numberOfParticles: 20,
@@ -12287,9 +12331,9 @@ var context = {
         heroAscensionSpeed: 2,
         heroInitialAlpha: 0.5,
         heroInnerRSmall: 4 * antialias,
-        heroInnerR: 8 * antialias,
-        heroOuterR: 20 * antialias,
-        heroLineStyle: [2 * antialias, _story2.default.pixiHeroColor],
+        heroInnerR: heroInnerR * antialias,
+        heroOuterR: heroOuterR * antialias,
+        heroLineStyle: [lineWidth * antialias, _story2.default.pixiHeroColor],
         heroScaleOuterSteps: 12,
         spreadFactor: 100,
 
@@ -12319,7 +12363,7 @@ var pause = function pause() {
         return context.stage;
     };
 };
-var acts = [_2.default, _4.default, _6.default, _8.default, _10.default, _12.default, pause];
+var acts = [_2.default, _4.default, _6.default, _8.default, _10.default, _12.default];
 
 var Story = function (_Component) {
     _inherits(Story, _Component);
@@ -12333,12 +12377,19 @@ var Story = function (_Component) {
         _this.next = _this.next.bind(_this);
         _this.start = _this.start.bind(_this);
         _this.end = _this.end.bind(_this);
+        _this.changeText = _this.changeText.bind(_this);
         return _this;
     }
 
     _createClass(Story, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            this.renderer = PIXI.autoDetectRenderer(context.props.width + context.props.padding * 2, context.props.height + context.props.padding * 2, {
+                transparent: true,
+                antialias: true
+            });
+            this.pixiHost.appendChild(this.renderer.view);
+
             this.start();
         }
     }, {
@@ -12346,11 +12397,11 @@ var Story = function (_Component) {
         value: function changeText(text, duration) {
             var self = this;
             duration = duration || 150;
-            self.textHost.style.opacity = 0;
-            self.textHost.style.transitionDuration = duration + 'ms';
+            self.text.style.opacity = 0;
+            self.text.style.transitionDuration = duration + 'ms';
             setTimeout(function () {
-                self.textHost.innerHTML = text;
-                self.textHost.style.opacity = 1;
+                self.text.innerHTML = text;
+                self.text.style.opacity = 1;
             }, duration);
         }
     }, {
@@ -12359,19 +12410,16 @@ var Story = function (_Component) {
             //first act will be +1 from this value
             this.currentAct = -1;
 
-            this.renderer = PIXI.autoDetectRenderer(context.props.width + context.props.padding * 2, context.props.height + context.props.padding * 2, {
-                transparent: true,
-                antialias: true
-            });
-            this.pixiHost.appendChild(this.renderer.view);
             context.stage = (0, _stage2.default)(context.props);
-
+            context.hero = undefined;
+            context.beziers = undefined;
+            context.particles = undefined;
             //settign initial context
             context.next = this.next;
-            context.changeText = this.changeText.bind(this);
+            context.changeText = this.changeText;
 
+            this.continueAnumation = true;
             this.next();
-
             this.animate();
         }
     }, {
@@ -12380,6 +12428,7 @@ var Story = function (_Component) {
             this.currentAct++;
             if (acts.length <= this.currentAct) {
                 this.end();
+                this.continueAnumation = false;
             } else {
                 this.currentActRender = acts[this.currentAct](context);
             }
@@ -12388,12 +12437,12 @@ var Story = function (_Component) {
         key: 'animate',
         value: function animate() {
             this.renderer.render(this.currentActRender());
-            this.frame = requestAnimationFrame(this.animate);
+            if (this.continueAnumation) requestAnimationFrame(this.animate);
         }
     }, {
         key: 'end',
         value: function end() {
-            // this.props.end()
+            this.props.onEnd(this.start);
         }
     }, {
         key: 'render',
@@ -12407,19 +12456,17 @@ var Story = function (_Component) {
                     'div',
                     { 'class': _story2.default.PixiHostWrapper },
                     (0, _preact.h)('div', { ref: function ref(host) {
-                            _this2.pixiHost = host;
+                            return _this2.pixiHost = host;
                         },
                         'class': _story2.default.PixiHost })
                 ),
-                (0, _preact.h)('div', { ref: function ref(arrowEnd) {
-                        _this2.arrowEnd = arrowEnd;
-                    },
-                    'class': _story2.default.arrowEnd,
-                    id: 'story-arrow-end' }),
+                (0, _preact.h)('div', { ref: function ref(heroEndPos) {
+                        return _this2.heroEndPos = heroEndPos;
+                    }, 'class': _story2.default.heroEndPos }),
                 (0, _preact.h)(
                     'div',
-                    { ref: function ref(host) {
-                            _this2.textHost = host;
+                    { ref: function ref(text) {
+                            return _this2.text = text;
                         },
                         'class': _story2.default.PixiContainerText,
                         id: 'story-text' },
@@ -23773,18 +23820,21 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, "/* colors */\n/* Spacing */\n/* Fonts */\n/* Effects */._2Czlt {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  height: 590px;\n  width: 590px;\n  padding: 15px;\n  padding-top: 90px;\n  background: #fafafa;\n  border-radius: 15px;\n  border: 1px solid #eee;\n  -webkit-box-shadow: 0 5px 0 0 rgba(0, 0, 0, .17);\n          box-shadow: 0 5px 0 0 rgba(0, 0, 0, .17); }\n\n._1CW9W {\n  position: absolute;\n  top: 214px;\n  right: 0; }\n\n._1nwxC {\n  width: 360px;\n  height: 360px;\n  position: relative;\n  overflow: visible; }\n\n.o9GYy {\n  position: absolute;\n  top: -180px;\n  left: -180px;\n  width: 720px;\n  height: 720px;\n  -webkit-transform: scale(0.5);\n          transform: scale(0.5);\n  max-width: 200%; }\n\n._3PbzI {\n  font-family: \"Open Sans\";\n  font-size: 29px;\n  text-align: center;\n  width: 100%;\n  -webkit-transition: 0.25s ease;\n  transition: 0.25s ease; }\n\n@media (max-width: 650px) {\n  ._2Czlt {\n    width: 100%;\n    height: auto;\n    padding-bottom: 90px; } }\n", ""]);
+exports.push([module.i, "/* colors */\n/* Spacing */\n/* Fonts */\n/* Effects */._2Czlt {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  height: 590px;\n  width: 590px;\n  padding: 15px;\n  padding-top: 90px;\n  background: #fafafa;\n  border-radius: 15px;\n  border: 1px solid #eee;\n  -webkit-box-shadow: 0 5px 0 0 rgba(0, 0, 0, .17);\n          box-shadow: 0 5px 0 0 rgba(0, 0, 0, .17); }\n\n.N5Xmy {\n  position: absolute;\n  top: 214px;\n  left: 50%;\n  margin-left: -49px; }\n\n._1nwxC {\n  width: 360px;\n  height: 360px;\n  position: relative;\n  overflow: visible; }\n\n.o9GYy {\n  position: absolute;\n  top: -180px;\n  left: -180px;\n  width: 720px;\n  height: 720px;\n  -webkit-transform: scale(0.5);\n          transform: scale(0.5);\n  max-width: 200%; }\n\n._3PbzI {\n  font-family: \"Open Sans\";\n  font-size: 29px;\n  text-align: center;\n  width: 100%;\n  -webkit-transition: 0.25s ease;\n  transition: 0.25s ease; }\n\n@media (max-width: 650px) {\n  ._2Czlt {\n    width: 100%;\n    height: auto;\n    padding-bottom: 90px; } }\n", ""]);
 
 // exports
 exports.locals = {
 	"pixiCanvasSize": "360px",
 	"pixiAntialias": "2",
 	"pixiPaddingInner": "30px",
+	"pixiLineWidth": "2px",
 	"pixiCircleR": "47px",
+	"pixiHeroOuterR": "20px",
+	"pixiHeroInnerR": "8px",
 	"pixiNeutralColor": "#1e1e1e",
 	"pixiHeroColor": "#b96ac9",
 	"PixiContainer": "_2Czlt",
-	"arrowEnd": "_1CW9W",
+	"heroEndPos": "N5Xmy",
 	"PixiHostWrapper": "_1nwxC",
 	"PixiHost": "o9GYy",
 	"PixiContainerText": "_3PbzI"
@@ -23932,7 +23982,7 @@ function act1(context) {
 
     circleCenter = { x: context.props.circleR, y: context.props.circleR };
 
-    context.changeText('Иногда, одна вытесняет другие');
+    context.changeText('Затем одна вытесняет другие');
 
     if (!context.hero) {
         context.hero = (0, _hero2.default)({
@@ -24258,7 +24308,7 @@ function act4(context) {
     };
 
     var lastAdjustSteps = Math.floor(context.props.lapSteps / 2);
-    var endSteps = Math.floor(context.props.lapSteps * 0.75);
+    var endSteps = Math.ceil(context.props.lapSteps * 0.75);
 
     var angle = 0;
     var scaleStep = 0;
@@ -24351,25 +24401,25 @@ function act5(context) {
     context.hero.scaleOuter(1);
 
     return function act5getFrame() {
-        context.hero.x += stepX;
-
-        if (context.hero.position.x >= circleCenter.x + context.props.circleR * 2) {
-            context.hero.visible = false;
-            context.next();
-        }
+        context.hero.visible = false;
+        // context.hero.alpha = 0.4
+        context.next();
 
         return context.stage;
     };
 }
 
 /***/ }),
-/* 145 */
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(146);
+var content = __webpack_require__(149);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -24394,7 +24444,7 @@ if(false) {
 }
 
 /***/ }),
-/* 146 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(undefined);
@@ -24402,13 +24452,190 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, "/* colors */\n/* Spacing */\n/* Fonts */\n/* Effects */\n._2NnlA {\n  font-size: 30px;\n  margin-left: 80px; }\n\n._3f7uB {\n  margin-bottom: 70px; }\n\n._3f7uB:last-child {\n  margin-bottom: 0; }\n\n.HC8s1 {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  height: 100vh; }\n\n@media screen and (max-width: 1200px) {\n  .HC8s1 {\n    width: 100%;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    padding: 15px 15px;\n    height: auto; }\n  ._2NnlA {\n    margin-left: 0;\n    margin-top: 30px;\n    font-size: 23px; }\n  ._3f7uB {\n    margin-bottom: 30px; } }\n", ""]);
+exports.push([module.i, "/* colors */\n/* Spacing */\n/* Fonts */\n/* Effects */\n._2NnlA {\n  font-size: 30px;\n  margin-left: 80px; }\n\n._3f7uB {\n  margin-bottom: 80px; }\n\n._3f7uB:last-child {\n  margin-bottom: 0; }\n\n.HC8s1 {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  height: 100vh; }\n\n@media screen and (max-width: 1200px) {\n  .HC8s1 {\n    width: 100%;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    padding: 15px 15px;\n    height: auto; }\n  ._2NnlA {\n    margin-left: 0;\n    margin-top: 30px;\n    font-size: 23px; }\n  ._3f7uB {\n    margin-bottom: 30px; } }\n", ""]);
 
 // exports
 exports.locals = {
 	"texts": "_2NnlA",
 	"textBlock": "_3f7uB",
 	"home": "HC8s1"
+};
+
+/***/ }),
+/* 150 */,
+/* 151 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _preact = __webpack_require__(0);
+
+var _align = __webpack_require__(68);
+
+var _align2 = _interopRequireDefault(_align);
+
+var _heroesWithTrails = __webpack_require__(152);
+
+var _heroesWithTrails2 = _interopRequireDefault(_heroesWithTrails);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var heroSize = parseInt(_heroesWithTrails2.default.heroSize, 10);
+var hero = void 0,
+    trail = void 0;
+
+var Hero = function Hero(props) {
+    var style = {
+        left: props.x,
+        top: props.y
+    };
+    return (0, _preact.h)('div', { 'class': _heroesWithTrails2.default.hero, ref: function ref(el) {
+            return hero = el;
+        }, style: style });
+};
+
+var Trail = function Trail(props) {
+    var maskStyle = {
+        left: props.maskX,
+        top: props.y
+    };
+
+    var elStyle = {
+        left: props.trailX
+    };
+    return (0, _preact.h)(
+        'div',
+        { 'class': _heroesWithTrails2.default.trailMask, style: maskStyle },
+        (0, _preact.h)('div', { 'class': _heroesWithTrails2.default.trail, ref: function ref(el) {
+                return trail = el;
+            }, style: elStyle })
+    );
+};
+
+var HeroesWithTrails = function (_Component) {
+    _inherits(HeroesWithTrails, _Component);
+
+    function HeroesWithTrails(props) {
+        _classCallCheck(this, HeroesWithTrails);
+
+        var _this = _possibleConstructorReturn(this, (HeroesWithTrails.__proto__ || Object.getPrototypeOf(HeroesWithTrails)).call(this, props));
+
+        _this.state = { line: undefined };
+        return _this;
+    }
+
+    _createClass(HeroesWithTrails, [{
+        key: 'run',
+        value: function run(y, x, maskX) {
+            y -= heroSize / 2;
+            var maskChildrenX = void 0;
+
+            var newHero = (0, _preact.h)(Hero, { y: y, x: x });
+            var newTrail = (0, _preact.h)(Trail, { y: y, trailX: x - maskX, maskX: maskX });
+
+            var line = (0, _preact.h)(
+                'div',
+                { 'class': _heroesWithTrails2.default.line },
+                newHero,
+                newTrail
+            );
+
+            setTimeout(function () {
+                console.log(hero);
+                hero.style.transform = 'translateX(100vw)';
+                trail.style.transform = 'translateX(100vw)';
+            }, 0);
+
+            this.setState({ line: line });
+        }
+    }, {
+        key: 'flush',
+        value: function flush() {
+            hero.style.transform = 'translateX(0)';
+            trail.style.transform = 'translateX(0)';
+            this.setState({ line: undefined });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            if (this.state.line) return (0, _preact.h)(
+                'div',
+                { 'class': _heroesWithTrails2.default.wrapper },
+                ' ',
+                this.state.line,
+                ' '
+            );
+            return null;
+        }
+    }]);
+
+    return HeroesWithTrails;
+}(_preact.Component);
+
+exports.default = HeroesWithTrails;
+
+/***/ }),
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(153);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(2)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--2-1!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js??ref--2-3!../../../../node_modules/universal-alias-loader/index.js??ref--0!./heroesWithTrails.sass", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--2-1!../../../../node_modules/postcss-loader/lib/index.js??ref--2-2!../../../../node_modules/sass-loader/lib/loader.js??ref--2-3!../../../../node_modules/universal-alias-loader/index.js??ref--0!./heroesWithTrails.sass");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 153 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "/* colors */\n/* Spacing */\n/* Fonts */\n/* Effects */._3rQLj {\n  position: absolute;\n  height: 100vh;\n  width: 100vw;\n  overflow-x: hidden;\n  overflow-y: visible;\n  pointer-events: none;\n  z-index: 5; }\n\n._3dMWB {\n  position: absolute;\n  width: 42px;\n  height: 42px;\n  border: 2px solid #b96ac9;\n  border-radius: 50%;\n  z-index: 1; }\n  ._3dMWB:after {\n    content: '';\n    display: block;\n    width: 16px;\n    height: 16px;\n    position: absolute;\n    left: 50%;\n    top: 50%;\n    margin: -8px 0 0 -8px;\n    border-radius: 50%;\n    background: #b96ac9; }\n\n._1Y9Hb {\n  position: absolute;\n  overflow: hidden;\n  height: 42px;\n  width: 100%;\n  z-index: 0; }\n\n.qOpBY {\n  position: absolute;\n  top: 0; }\n  .qOpBY:before {\n    content: '';\n    display: block;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 42px;\n    height: 42px;\n    background: #b8e1ff;\n    border-radius: 50%;\n    z-index: 2; }\n  .qOpBY:after {\n    content: '';\n    display: block;\n    position: absolute;\n    top: 0;\n    left: 21px;\n    height: 42px;\n    width: 100vw;\n    margin-left: -100vw;\n    background: #b96ac9;\n    z-index: 1; }\n\n.qOpBY, ._3dMWB {\n  -webkit-transition: 1s ease-in;\n  transition: 1s ease-in; }\n", ""]);
+
+// exports
+exports.locals = {
+	"heroSize": "42px",
+	"wrapper": "_3rQLj",
+	"hero": "_3dMWB",
+	"trailMask": "_1Y9Hb",
+	"trail": "qOpBY"
 };
 
 /***/ })
