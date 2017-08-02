@@ -14955,7 +14955,7 @@ var Story = function (_Component) {
         key: 'start',
         value: function start() {
             //first act will be +1 from this value
-            this.currentAct = 4 - 1;
+            this.currentAct = 0 - 1;
 
             context.stage = (0, _stage2.default)(context.props);
             context.hero = undefined;
@@ -26449,7 +26449,7 @@ function act0(context) {
 
     circleCenter = { x: context.props.circleR, y: context.props.circleR };
 
-    context.changeText('Много идей обитает у меня в голове');
+    context.changeText('Много идей обитает у меня в голове', 250);
 
     if (!context.particles) {
         context.particles = (0, _particles2.default)(context.props);

@@ -125,7 +125,7 @@ export default class Story extends Component {
 
     start() {
         //first act will be +1 from this value
-        this.currentAct = 4 - 1
+        this.currentAct = 0 - 1
 
         context.stage = makeStage(context.props)
         context.hero = undefined
