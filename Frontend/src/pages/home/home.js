@@ -1,4 +1,5 @@
 import { h, Component } from 'preact'
+import _curry from 'lodash/curry'
 
 import Link from '@components/link/link' 
 import align from '@utils/align'
@@ -8,14 +9,24 @@ import HeroesWithTrails from './heroesWithTrails/heroesWithTrails'
 
 import styles from './home.sass'
 
-let upperTextProjectsLink 
-let masks
+let upperTextProjectsLink
+const projects = [{
+        title: 'Ripple.js',
+        url: '/project/ripple' 
+    }, {
+        title: 'этот сайт',
+        url: '/project/v-trof' 
+    }, {
+        title: 'Artistlib',
+        url: '/project/artistlib' 
+    }
+]
 
 let UpperText = (props) => (
     <div class={styles.textBlock}>
-        Так появился <Link url={props.project.url} 
-            ref={link => upperTextProjectsLink = link}> {props.project.title} 
-        </Link>. <br />
+        Так появился <Link url={props.project.url}  
+            ref={link => upperTextProjectsLink = link}> {props.project.title}  
+        </Link>. <br /> 
         Посмотреть <Link url='/projects/'> остальные проекты </Link> <br />
         Или <Link url='/contact/'> сделать следущий вашим </Link>
     </div>
@@ -33,6 +44,8 @@ export default class Home extends Component {
     constructor(props) {
         super(props)
         this.lastStoryAct = this.lastStoryAct.bind(this)
+        this.nextProject = this.nextProject.bind(this)
+        this.state = {currentProject: 0}
     }
 
     componentDidMount() {
@@ -63,36 +76,61 @@ export default class Home extends Component {
         window.onresize = reAlign
     }
 
-    lastStoryAct(cb) {
-        let storyEnd = this.story.heroEndPos
-        let storyEndRect = storyEnd.getBoundingClientRect()
-        let storyRect = this.story.base.getBoundingClientRect()
+    nextProject() {
+        this.setState({
+            currentProject: (this.state.currentProject + 1) % projects.length
+        })
+    }
 
-        this.heroesWithTrails.run(
-            storyEndRect.top,
-            storyEndRect.left,
-            storyRect.left + storyRect.width
-        )
-        setTimeout(() => {
-            this.heroesWithTrails.flush()
-            cb()
-        }, 3000)
+    lastStoryActMobile(runHeroFromStoryEnd, cb) {
+        const nextCb = () => {
+            const linkRect = upperTextProjectsLink.base.getBoundingClientRect()
+            this.heroesWithTrailsLower.run(
+                linkRect.top + linkRect.height / 2, 
+                document.body.getBoundingClientRect().top,
+                 -100, -100,
+                this.nextProject,
+                () => {
+                    this.heroesWithTrailsLower.flush()
+                    cb()
+                }
+            )
+        }
+
+        runHeroFromStoryEnd(nextCb, this.heroesWithTrails.flush)
+    }
+
+    lastStoryAct(cb) {
+        const bodyRect = document.body.getBoundingClientRect()
+        const storyEndRect = this.story.heroEndPos.getBoundingClientRect()
+        const storyRect = this.story.base.getBoundingClientRect()
+        const runHeroFromStoryEnd = _curry(this.heroesWithTrails.run)(
+                                        storyEndRect.top, 
+                                        bodyRect.top,
+                                        storyEndRect.left,
+                                        storyRect.left + storyRect.width
+                                    )
+        
+        if(bodyRect.width < 1200) 
+            return this.lastStoryActMobile(runHeroFromStoryEnd, cb)
+
+        runHeroFromStoryEnd(this.nextProject,
+                            () => {
+                                this.heroesWithTrails.flush()
+                                cb()
+                            })
     }
 
     render() {  
-        let project = {
-            url: '/about/',
-            title: 'Pileus'
-        }      
-        
         return (
             <div class={styles.home}>
                 <HeroesWithTrails ref={el => this.heroesWithTrails = el} />
+                <HeroesWithTrails ref={el => this.heroesWithTrailsLower = el} />
 
                 <Story ref={story => this.story = story} onEnd={this.lastStoryAct} />
                 <div class={styles.texts}>
                     <UpperText ref={el => this.upperText = el} 
-                               project={project} />
+                               project={projects[this.state.currentProject]} />
                     <LowerText ref={el => this.lowerText = el} />
                 </div>
             </div>

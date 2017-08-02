@@ -5,12 +5,49 @@
 $hero-inner-shift: $pixi-hero-outer-r - $pixi-hero-inner-r 
 $hero-size: $pixi-hero-outer-r * 2 + $pixi-line-width
 
+$animation-duration-mobile: 1500ms
+$animation-duration-default: 2000ms
+$animation-duration-giant: 3000ms
+
+$breakpoint-mobile: 650px
+$breakpoint-giant: 2000px
+
+$trail-broder-radius: $pixi-hero-inner-r
+
 @value heroSize #{$hero-size}
+
+@value animationDurationMobile #{$animation-duration-mobile}
+@value animationDurationDefault #{$animation-duration-default}
+@value animationDurationGiant #{$animation-duration-giant}
+
+@value breakpointMobile #{$breakpoint-mobile}
+@value breakpointGiant #{$breakpoint-giant}
+
+.moveOffScreen
+  animation-duration: $animation-duration-default
+  animation-name: moveOffScreen
+  animation-fill-mode: forwards
+  animation-timing-function: ease-in
+  @media (max-width: $breakpoint-mobile)
+    animation-duration: $animation-duration-mobile
+  @media (min-width: $breakpoint-giant)
+    animation-duration: $animation-duration-giant
+
+
+@keyframes moveOffScreen
+    0%
+        transform: translateX(0)
+    100%
+        //100 with tail + 100to hide it + 50 for failsafe
+        transform: translateX(250vw)
 
 .wrapper
     position: absolute
+    top: 0
+    left: 0
     height: 100vh
-    width: 100vw
+    width: 100%
+    max-width: 100%
     overflow-x: hidden
     overflow-y: visible
     pointer-events: none
@@ -43,7 +80,7 @@ $hero-size: $pixi-hero-outer-r * 2 + $pixi-line-width
     position: absolute
     overflow: hidden
     height: $hero-size
-    width: 100%
+    width: 200vw
     z-index: 0
     // background: rgba(0,0,0,.1)
 
@@ -73,7 +110,9 @@ $hero-size: $pixi-hero-outer-r * 2 + $pixi-line-width
         margin-left: -100vw
         background: $color-accent
         z-index: 1
+        border-top-left-radius: $trail-broder-radius
+        border-bottom-left-radius: $trail-broder-radius 
 
 
 .trail, .hero
-    transition: 1s ease-in
+    composes: moveOffScreen

@@ -5,14 +5,28 @@ import align from '@utils/align'
 import styles from './heroesWithTrails.sass'
 
 const heroSize = parseInt(styles.heroSize, 10)
-let hero, trail
+const animationDurationMobile = parseInt(styles.animationDurationMobile, 10)
+const animationDurationDefault = parseInt(styles.animationDurationDefault, 10)
+const animationDurationGiant = parseInt(styles.animationDurationGiant, 10)
+
+const breakpointMobile = parseInt(styles.breakpointMobile, 10)
+const breakpointGiant = parseInt(styles.breakpointGiant, 10)
+
+const predictDuration = () => {
+    const width = document.body.getBoundingClientRect().width
+
+    if(width < breakpointMobile) return animationDurationMobile
+    if(width > breakpointGiant) return animationDurationGiant
+    
+    return animationDurationDefault
+}
 
 const Hero = (props) => {
     let style = {
         left: props.x,
         top: props.y
     }
-    return <div class={styles.hero} ref={el => hero = el} style={style} />
+    return <div class={styles.hero} style={style} />
 }
 
 const Trail = (props) => {
@@ -26,7 +40,7 @@ const Trail = (props) => {
     }
     return (
         <div class={styles.trailMask} style={maskStyle}>
-            <div class={styles.trail} ref={el => trail = el} style={elStyle} />
+            <div class={styles.trail} style={elStyle} />
         </div>
     )
 }
@@ -34,12 +48,14 @@ const Trail = (props) => {
 export default class HeroesWithTrails extends Component {
     constructor(props) {
         super(props)
-        this.state = {line: undefined}
+        this.state = {line: undefined, yShift: 0}
+        this.run = this.run.bind(this)
+        this.flush = this.flush.bind(this)
     }
 
-    run(y, x, maskX) {
+    run(y, yShift, x, maskX, transitionCb, endCb) {        
         y -= heroSize/2
-        let maskChildrenX
+        yShift *= -1 //should compensate scroll, not worsen it 
 
         let newHero = <Hero y={y} x={x} />
         let newTrail = <Trail y={y} trailX={x - maskX} maskX={maskX} />
@@ -51,24 +67,19 @@ export default class HeroesWithTrails extends Component {
             </div>
         )
 
-        setTimeout(() => {
-            console.log(hero)
-            hero.style.transform = 'translateX(100vw)'
-            trail.style.transform = 'translateX(100vw)'
-        }, 0)
+        if(transitionCb) setTimeout(transitionCb, predictDuration()/2)
+        if(endCb) setTimeout(endCb, predictDuration())
 
-        this.setState({line})
+        this.setState({line, yShift})
     }
 
     flush() {
-        hero.style.transform = 'translateX(0)'
-        trail.style.transform = 'translateX(0)'
         this.setState({line: undefined})
     }
 
     render() {
         if(this.state.line)
-            return (<div class={styles.wrapper}> {this.state.line} </div>)
+            return (<div class={styles.wrapper} style={{top: this.state.yShift}}> {this.state.line} </div>)
         return null
     }
 }

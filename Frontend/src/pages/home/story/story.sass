@@ -37,7 +37,7 @@
     position: absolute
     top: $pixi-padding-inner + $pixi-circle-r * 2 + $pixi-padding-outer
     left: 50%
-    margin-left: -$pixi-circle-r - $pixi-line-width
+    margin-left: -$pixi-circle-r - $space-m
 
 .PixiHostWrapper
     width: $pixi-canvas-size
@@ -64,6 +64,8 @@
     text-align: center
     width: 100%
     transition: $transition-m
+    @media (max-width: 400px)
+        font-size: 22px
 
 @media (max-width: $card-size + $space-l * 2)
     .PixiContainer

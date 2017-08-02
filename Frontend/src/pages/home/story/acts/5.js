@@ -9,7 +9,7 @@ export default function act5(context) {
     
     let stepX = context.props.heroSpeed
 
-    context.changeText('Наконец, она становится доступной для остальных', 150)
+    context.changeText('Наконец, ей можно поделиться с другими', 150)
 
     if( ! context.hero) {
         context.hero = makeHero({

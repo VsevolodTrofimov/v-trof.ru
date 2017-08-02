@@ -21,7 +21,7 @@ for(let key in styles) {
 
 const lineWidth = parseInt(styles.pixiLineWidth, 10)
 const padding = parseInt(styles.pixiPaddingInner, 10)
-const size = parseInt(styles.pixiCanvasSize, 10) - padding
+const size = parseInt(styles.pixiCanvasSize, 10) - padding * 2
 const antialias = parseInt(styles.pixiAntialias, 10)
 
 const heroSpeed = 1.2
@@ -49,6 +49,7 @@ const context = {
         heroSpeed: heroSpeed * antialias,
         //act 0+
         act0Duration: 3500,
+        act0AlphaSteps: 30,
         numberOfParticles: 20,
         particleR: 2 * antialias,
         particleColor: styles.pixiNeutralColor,
@@ -117,13 +118,14 @@ export default class Story extends Component {
         self.text.style.transitionDuration = duration + 'ms'
         setTimeout(() => {
             self.text.innerHTML = text
-            self.text.style.opacity = 1
-        }, duration)
+            //edge fix
+            setTimeout(() => self.text.style.opacity = 1, 1)
+        }, duration)        
     }
 
     start() {
         //first act will be +1 from this value
-        this.currentAct = -1
+        this.currentAct = 4 - 1
 
         context.stage = makeStage(context.props)
         context.hero = undefined
@@ -155,6 +157,10 @@ export default class Story extends Component {
 
     end() {
         this.props.onEnd(this.start)
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return false
     }
 
     render() {

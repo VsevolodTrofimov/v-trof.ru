@@ -29,6 +29,7 @@ function conditionalTurn(particle, circleR) {
 
 export default function act0(context) {
     const numberOfParticles = context.props.numberOfParticles
+    const alphaStep = 1/context.props.act0AlphaSteps
     let shouldEnd = false
     let particle
 
@@ -41,6 +42,8 @@ export default function act0(context) {
         context.stage.addChild(context.particles)
     }
 
+    context.particles.alpha = 0
+
     context.particles.children.forEach(particle => {
         direction = Math.random() * Math.PI * 2
         particle.direction = direction
@@ -52,6 +55,9 @@ export default function act0(context) {
     }, context.props.act0Duration);
 
     return function act0getFrame() {
+        if(context.particles.alpha < 1)
+            context.particles.alpha += alphaStep
+        
         for(let i = 0; i < numberOfParticles; i++) {
             particle = context.particles.children[i]
             conditionalTurn(particle, context.props.circleR)
