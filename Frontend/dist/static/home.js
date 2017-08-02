@@ -82,7 +82,7 @@ var UpperText = function UpperText(props) {
             ' ',
             props.project.title
         ),
-        '. ',
+        ' ',
         (0, _preact.h)('br', null),
         '\u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C ',
         (0, _preact.h)(

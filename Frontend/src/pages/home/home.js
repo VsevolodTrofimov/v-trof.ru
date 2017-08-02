@@ -26,7 +26,7 @@ let UpperText = (props) => (
     <div class={styles.textBlock}>
         Так появился <Link url={props.project.url}  
             ref={link => upperTextProjectsLink = link}> {props.project.title}  
-        </Link>. <br /> 
+        </Link> <br /> 
         Посмотреть <Link url='/projects/'> остальные проекты </Link> <br />
         Или <Link url='/contact/'> сделать следущий вашим </Link>
     </div>
