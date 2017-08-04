@@ -16,8 +16,6 @@ const standartize = arg => {
 export default function prefetch() {
     const args = [...arguments]
 
-    console.log('prefetching', args)
-
     const promises = args.map(arg => {
         arg = standartize(arg)
         if(arg.noCache) return fetch(arg.url)

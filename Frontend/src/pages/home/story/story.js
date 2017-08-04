@@ -100,7 +100,6 @@ export default class Story extends Component {
     }
 
     componentDidMount() {
-        console.log(styles, context)
         this.renderer = PIXI.autoDetectRenderer(
             context.props.width + context.props.padding * 2, 
             context.props.height + context.props.padding * 2, {
