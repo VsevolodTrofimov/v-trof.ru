@@ -5,14 +5,14 @@
   "main": "index.js",
   "scripts": {
     "serve": "set NODE_ENV=development&& cd __config__ && node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "watch-test": "set NODE_ENV=development&& cd __config__ && node ../node_modules/webpack/bin/webpack --w",
+    "watch": "set NODE_ENV=development&& cd __config__ && node ../node_modules/webpack/bin/webpack --w",
     "build-test": "set NODE_ENV=development&& cd __config__ && node ../node_modules/webpack/bin/webpack",
-    "build": "set NODE_ENV=production&& cd __config__ && node ../node_modules/webpack/bin/webpack"
+    "build": "set WEBPACK_CONFIG=production&& cd __config__ && node ../node_modules/webpack/bin/webpack"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.17.4",
+    "lodash.curry": "^4.1.1",
     "pixi-reduced-to-graphics": "^0.5.0",
     "preact": "^8.2.1",
     "preact-async-route": "^2.0.0",

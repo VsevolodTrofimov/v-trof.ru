@@ -1,26 +1,16 @@
 import { h, Component } from 'preact'
-import _curry from 'lodash/curry'
+import _curry from 'lodash.curry'
 
 import Link from '@components/link/link' 
 import align from '@utils/align'
-import Story from './story/story'
+import prefetch from '@utils/prefetch'
 
+import Story from './story/story'
 import HeroesWithTrails from './heroesWithTrails/heroesWithTrails'
 
 import styles from './home.sass'
 
 let upperTextProjectsLink
-const projects = [{
-        title: 'Ripple.js',
-        url: '/project/ripple' 
-    }, {
-        title: 'этот сайт',
-        url: '/project/v-trof' 
-    }, {
-        title: 'Artistlib',
-        url: '/project/artistlib' 
-    }
-]
 
 let UpperText = (props) => (
     <div class={styles.textBlock}>
@@ -45,7 +35,15 @@ export default class Home extends Component {
         super(props)
         this.lastStoryAct = this.lastStoryAct.bind(this)
         this.nextProject = this.nextProject.bind(this)
-        this.state = {currentProject: 0}
+        this.state = {currentProject: 0, projects: [{title: '...'}]}
+    }
+
+    componentWillMount() {
+        prefetch('/data/home').then(res => {
+            return res.json()
+        }).then(data => {
+            if(data.featured) this.setState({projects: data.featured})
+        })
     }
 
     componentDidMount() {
@@ -61,15 +59,10 @@ export default class Home extends Component {
             
             align(self.upperText.base, storyEnd, {
                 by: upperTextProjectsLink.base,
-                to: 'center',
-                apply: true
+                to: 'center'
             })
 
-            align(self.lowerText.base, storyText, {
-                by: self.lowerText.base,
-                to: 'center',
-                apply: true
-            })
+            align(self.lowerText.base, storyText, {to: 'center'})
         }
         
         reAlign()
@@ -78,7 +71,7 @@ export default class Home extends Component {
 
     nextProject() {
         this.setState({
-            currentProject: (this.state.currentProject + 1) % projects.length
+            currentProject: (this.state.currentProject + 1) % this.state.projects.length
         })
     }
 
@@ -130,7 +123,7 @@ export default class Home extends Component {
                 <Story ref={story => this.story = story} onEnd={this.lastStoryAct} />
                 <div class={styles.texts}>
                     <UpperText ref={el => this.upperText = el} 
-                               project={projects[this.state.currentProject]} />
+                               project={this.state.projects[this.state.currentProject]} />
                     <LowerText ref={el => this.lowerText = el} />
                 </div>
             </div>

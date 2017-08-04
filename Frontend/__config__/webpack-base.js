@@ -38,10 +38,20 @@ module.exports = {
     }),
     
     new webpack.optimize.CommonsChunkPlugin({
-      name: "vendor",
-      // filename: path.join(paths.dist, 'static/vendor.js'),
+      name: 'vendor',
       minChunks: Infinity,
-    })
+    }),
+
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'common',
+    //   async: true,
+    //   minChunks: function(module, count) {
+    //     if(count > 1 && module.context && module.context.indexOf('node_modules') === -1) {
+    //       if(module.context.contains('components') || module.context.contains('utils')) return true
+    //     }
+    //     return false
+    //   }
+    // })
   ],
 
   //dev

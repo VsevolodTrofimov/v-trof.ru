@@ -1,0 +1,12 @@
+{
+    "featured": [{
+        "title": "Ripple.js",
+        "url": "/project/ripple" 
+    }, {
+        "title": "этот сайт",
+        "url": "/project/v-trof" 
+    }, {
+        "title": "Pileus",
+        "url": "/project/pileus" 
+    }]  
+}

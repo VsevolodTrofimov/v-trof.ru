@@ -1,4 +1,4 @@
-const PIXI = require('pixi-reduced-to-graphics') 
+const PIXI = require('pixi-reduced-to-graphics')
 
 function makeCircle(props) {
     let circle = new PIXI.Graphics()

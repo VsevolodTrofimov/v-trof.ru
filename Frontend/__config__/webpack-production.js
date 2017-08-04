@@ -19,7 +19,6 @@ const mergedConfig = webpackMerge(baseConfig, {
   plugins: [
     new WebpackCleanupPlugin(),
     new WebpackChunkHash({algorithm: 'md5'}),
-    new webpack.LoaderOptionsPlugin({minimize: true, debug: false}),
 
     new webpack.DefinePlugin({
       'process.env': {
@@ -32,7 +31,7 @@ const mergedConfig = webpackMerge(baseConfig, {
     // new BundleAnalyzerPlugin(),
     new RuntimeAnalyzerPlugin({
       mode: 'standalone',
-      open: true,
+      open: false,
       port: 333,
       watchModeOnly: false
     })

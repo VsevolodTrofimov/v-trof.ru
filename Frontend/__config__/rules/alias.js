@@ -10,6 +10,7 @@ module.exports = function(__dirname) {
       loader: 'universal-alias-loader',
       options: {
         alias: {
+          "@common": paths.common,
           "@src": paths.src,
           "@icons": path.join(paths.src, 'icons'),
           "@pages": path.join(paths.src, 'pages'),

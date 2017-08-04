@@ -1,11 +1,12 @@
-export default function align (element, target, options={
+export default function align (element, target, options) {
+    options = Object.assign({}, {
         by: element,
         to: 'top',
         apply: true
-    }) { 
+    },  options)
     
-    let byRect = options.by.getBoundingClientRect()
-    let targetRect = target.getBoundingClientRect()
+    const byRect = options.by.getBoundingClientRect()
+    const targetRect = target.getBoundingClientRect()
     let innerDiff = 0
     let result = 0
 

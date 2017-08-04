@@ -1,7 +1,5 @@
 import { h, Component } from 'preact'
 
-import align from '@utils/align'
-
 import styles from './heroesWithTrails.sass'
 
 const heroSize = parseInt(styles.heroSize, 10)
@@ -48,38 +46,42 @@ const Trail = (props) => {
 export default class HeroesWithTrails extends Component {
     constructor(props) {
         super(props)
-        this.state = {line: undefined, yShift: 0}
+        this.state = {
+            HeroY: 0,
+            HeroX: 0,
+            maskX: 0,
+
+        }
         this.run = this.run.bind(this)
         this.flush = this.flush.bind(this)
     }
 
-    run(y, yShift, x, maskX, transitionCb, endCb) {        
-        y -= heroSize/2
-        yShift *= -1 //should compensate scroll, not worsen it 
-
-        let newHero = <Hero y={y} x={x} />
-        let newTrail = <Trail y={y} trailX={x - maskX} maskX={maskX} />
-
-        let line = (
-            <div class={styles.line}>
-                {newHero}
-                {newTrail}
-            </div>
-        )
+    run(heroY, scrollY, heroX, maskX, transitionCb, endCb) {        
+        heroY -= heroSize/2
+        scrollY *= -1 //should compensate scroll, not worsen it 
 
         if(transitionCb) setTimeout(transitionCb, predictDuration()/2)
         if(endCb) setTimeout(endCb, predictDuration())
 
-        this.setState({line, yShift})
+        this.setState({heroY, scrollY, heroX, maskX, render: true})
     }
 
     flush() {
-        this.setState({line: undefined})
+        this.setState({render: false})
     }
 
     render() {
-        if(this.state.line)
-            return (<div class={styles.wrapper} style={{top: this.state.yShift}}> {this.state.line} </div>)
+        if(this.state.render) return (
+            <div class={styles.wrapper} style={{top: this.state.yShift}}> 
+                <div class={styles.line}>
+                    <Hero y={this.state.heroY} x={this.state.heroX} />
+                    <Trail y={this.state.heroY} 
+                           trailX={this.state.heroX - this.state.maskX} 
+                           maskX={this.state.maskX} 
+                    />
+                </div>
+            </div>
+        )
         return null
     }
 }
