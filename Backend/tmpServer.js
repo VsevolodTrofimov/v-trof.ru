@@ -5,6 +5,14 @@ const app = express()
 
 const pathToApp = '../Frontend/dist/'
 const pathToData = '../Common/page-data/'
+const pages = [
+  '/',
+  'contact',
+  '/about',
+  '/skills',
+  '/projects',
+  '/project/:project-title']
+
 
 app.get('/data/*', function(req, res) {
   const dataPath = req.url.slice(req.url.indexOf('/data/') + 6) + '.json'
@@ -14,9 +22,9 @@ app.get('/data/*', function(req, res) {
     path.resolve(__dirname, pathToData, dataPath), 'utf-8',
     (err, data) => {res.write(data); res.end();}
   )
-}) 
+})
 
-app.get(/^(?!(\/data|\/static))/, function (req, res) {
+app.get(pages, function (req, res) {
   res.sendFile(path.resolve(__dirname, pathToApp, 'index.html'))
 })
 

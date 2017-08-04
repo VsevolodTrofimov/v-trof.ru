@@ -26,6 +26,7 @@ module.exports = {
   //output
   output: {
     path: paths.dist,
+    publicPath: '/',
     filename: 'static/[name].js',
     chunkFilename: 'static/[name].js'
   },
