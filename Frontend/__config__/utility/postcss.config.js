@@ -5,8 +5,6 @@ const config  = {
   }
 }
 
-if(process.env.NODE_ENV === 'production') {
-  config.plugins['postcss-csso'] = {}
-}
+// if(process.env.NODE_ENV === 'production') config.plugins['postcss-csso'] = {}
 
 module.exports = config

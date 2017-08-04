@@ -24,10 +24,7 @@ module.exports = function(__dirname) {
   }
 
   const sassLoader = {
-    loader: "sass-loader",
-    options: {
-      includePaths: [path.join(paths.src, 'utils', 'vars.sass')]
-    }
+    loader: "sass-loader"
   }
 
   if(process.env.NODE_ENV === 'production') postCSSLoader.options.sourceMap = false

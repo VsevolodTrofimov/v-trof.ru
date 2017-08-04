@@ -7,7 +7,7 @@
     "serve": "set NODE_ENV=development&& cd __config__ && node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "watch": "set NODE_ENV=development&& cd __config__ && node ../node_modules/webpack/bin/webpack --w",
     "build-test": "set NODE_ENV=development&& cd __config__ && node ../node_modules/webpack/bin/webpack",
-    "build": "set WEBPACK_CONFIG=production&& cd __config__ && node ../node_modules/webpack/bin/webpack"
+    "build": "set NODE_ENV=production&& cd __config__ && node ../node_modules/webpack/bin/webpack"
   },
   "author": "",
   "license": "ISC",
