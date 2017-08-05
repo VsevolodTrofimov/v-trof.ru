@@ -58,6 +58,15 @@ module.exports = {
   //dev
   devtool: 'source-map',
   devServer: {
-    port: 80
+    port: 8080,
+    historyApiFallback: {
+      rewrites: [{
+        from: /^(?!\/data\/)/,
+        to: '/'
+      }]
+    },
+    proxy: {
+      "/data": "http://localhost:80"
+    }
   }
 }

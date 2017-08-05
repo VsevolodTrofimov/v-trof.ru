@@ -1,6 +1,8 @@
 import { h, Component } from 'preact'
 const PIXI = require('pixi-reduced-to-graphics') 
 
+import Card from '@components/card/card' 
+
 import makeStage from '@thisPage/story/make/stage'
 
 import styles from './story.sass'
@@ -163,9 +165,13 @@ export default class Story extends Component {
         return false
     }
 
+    componentWillUnmount() {
+        this.continueAnumation = false
+    }
+
     render() {
         return (
-            <div class={styles.PixiContainer}>
+            <Card class={styles.PixiContainer}>
                 <div class={styles.PixiHostWrapper}>
                     <div ref={host => this.pixiHost = host}
                         class={styles.PixiHost}></div>
@@ -176,7 +182,7 @@ export default class Story extends Component {
                 <div ref={text => this.text = text} 
                      class={styles.PixiContainerText} 
                      id='story-text'>Starting...</div>
-            </div>
+            </Card>
         )
     }
 }

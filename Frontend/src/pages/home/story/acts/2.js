@@ -101,6 +101,7 @@ export default function act2(context) {
 
         completedSteps++
         if(completedSteps === totalSteps) {
+            context.hero.scaleInner(1 + scaleStep * completedScales)
             context.next()
         }
 

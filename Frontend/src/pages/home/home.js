@@ -40,7 +40,7 @@ export default class Home extends Component {
 
     componentWillMount() {
         prefetch('/data/home').then(res => {
-            return res.json()
+            return res.clone().json()
         }).then(data => {
             if(data.featured) this.setState({projects: data.featured})
         })

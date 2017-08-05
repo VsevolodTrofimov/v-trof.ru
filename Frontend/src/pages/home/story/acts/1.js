@@ -89,6 +89,7 @@ export default function act1(context) {
 
         if(hero.y <= context.props.neckLength) {
             context.particles.visible = false
+            hero.scaleOuter(1)
             context.next()
         }
 
