@@ -39,7 +39,7 @@ export default class Home extends Component {
     }
 
     componentWillMount() {
-        prefetch('/data/home').then(res => {
+        prefetch('/data/home').then(res => {            
             return res.clone().json()
         }).then(data => {
             if(data.featured) this.setState({projects: data.featured})
@@ -121,11 +121,11 @@ export default class Home extends Component {
                 <HeroesWithTrails ref={el => this.heroesWithTrailsLower = el} />
 
                 <Story ref={story => this.story = story} onEnd={this.lastStoryAct} />
-                <div class={styles.texts}>
+                <main class={styles.texts}>
                     <UpperText ref={el => this.upperText = el} 
                                project={this.state.projects[this.state.currentProject]} />
                     <LowerText ref={el => this.lowerText = el} />
-                </div>
+                </main>
             </div>
         );
     }
