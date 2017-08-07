@@ -1,8 +1,8 @@
 const showdown  = require('showdown')
-const _ = require('ramda')
+const R = require('ramda')
 
 const path = require('path')
-const fs = require('fs')
+const fs = require('fs-extra')
 
 const pathToProjects = '../Common/page-data/project-data'
 const converter = new showdown.Converter()
@@ -10,47 +10,53 @@ const converter = new showdown.Converter()
 
 
 
-const compileChunk = filePath => new Promise((resolve, reject) => {
+const link = (config, projectFiles) => new Promise((resolve, reject) => {
+    const compiledProject = projectFiles.reduce((project, file) => {
+        project[file.propName] = file.body
+        return project
+    }, {})
+
+    resolve(Object.assign(compiledProject, config))
+})
+
+
+const compileChunk = filePath => fs.readFile(filePath, 'utf8').then(data => new Promise((resolve, reject) => {
+    let propName = R.last(filePath.split('-')).replace('.md', '')
+
+    resolve({propName, body: converter.makeHtml(data)})
+}))
+
+
+const compileProject = dir => fs.readdir(dir).then(files => new Promise((resolve, reject) => { 
+    let config
+    const toFullPath = chunk => path.join(dir, chunk)
+
+    const compiledFiles = files
+                        .filter(R.endsWith('.md'))
+                        .map(R.pipe(toFullPath, compileChunk))
     
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if(err) reject(err)
+    const configs = files
+                        .filter(R.endsWith('.json'))
+                        .map(R.pipe(toFullPath, fs.readJson))
 
-        let prop = _.last(filePath.split('-')).replace('.md', '')
-
-        resolve({
-            prop,
-            body: converter.makeHtml(data)
+    Promise.all(configs)
+        .then(configs => {
+            config = Object.assign(...configs)
+            return Promise.all(compiledFiles)
         })
-    })
-
-})
-
-
-const compileProject = dir => new Promise((resolve, reject) => {
-    
-    fs.readdir(dir, (err, files) => {
-        if(err) reject(err)
-        const toFullPath = chunk => path.join(dir, chunk)
-
-        const promises = files
-                            .filter(_.endsWith('.md'))
-                            .map(_.pipe(toFullPath, compileChunk))
-                
-        Promise.all(promises).then(resolve)
-    })
-    
-})
+        .then(compiledFiles => link(config, compiledFiles))
+        .then(resolve)
+}))
 
 
 
 
-fs.readdir(pathToProjects, (err, data) => {
+fs.readdir(pathToProjects).then(dirs => {
     const toFullPath = chunk => path.join(pathToProjects, chunk)
 
-    const promises = data
-                        .filter(_.pipe(toFullPath, fs.lstatSync, _.invoker(0, 'isDirectory')))
-                        .map(_.pipe(toFullPath, compileProject))
+    const compiledProjects = dirs
+                        .filter(R.pipe(toFullPath, fs.lstatSync, R.invoker(0, 'isDirectory')))
+                        .map(R.pipe(toFullPath, compileProject))
    
-    Promise.all(promises)
-        .then(console.log)
+    Promise.all(compiledProjects).then(console.log)
 })
