@@ -66,7 +66,7 @@ module.exports = {
       }]
     },
     proxy: {
-      "/data": "http://localhost:80"
+      '/data': 'http://localhost:80'
     }
   }
 }

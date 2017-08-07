@@ -1,17 +1,33 @@
 import { h, Component } from 'preact'
 
-import Card from '@components/card/card'
+import Card from '@components/card~'
+import Space from '@components/space~'
+
+import Overview from './postComponents/overview~'
+import Tech from './postComponents/Tech~'
 
 const order = [
-    'Links',
-    'Overview',
-    'Tech',
-    'Role',
-    'Uncommon',
-    'Takeaways',
-    'Good',
-    'Bad',
-    'Assets'
+    {
+        field: 'links',
+    }, {
+        field: 'overview',
+        component: Overview
+    }, {
+        field: 'tech',
+        component: Tech
+    }, {
+        field: 'role',
+    }, {
+        field: 'uncommon',
+    }, {
+        field: 'takeaways',
+    }, {
+        field: 'hood',
+    }, {
+        field: 'bad',
+    }, {
+        field: 'assets'
+    }
 ]
 
 export default class Project extends Component {
@@ -21,15 +37,27 @@ export default class Project extends Component {
         this.state = {
             loaded: false,
             project: {
-                Overview: 'Wait a bit...'
+                title: 'Ripple.js'
             }
         }
     }
 
     render() {
+        const postBody = order.map(item => {
+            if(this.state.project[item.field] && item.component) 
+                return (
+                    <Space top='m'>
+                        {h(item.component, this.state.project)}
+                    </Space>
+                )
+            return null 
+        }).filter(item => item !== null)
+
         return (
             <Card>
-                <h1> bLA {this.props.title} </h1>
+                <h1> {this.state.project.title} </h1>
+
+                {postBody.length ? postBody : 'Загружаем...'}
             </Card>
         )
     }

@@ -3,8 +3,9 @@ import Router from 'preact-router'
 import Match from 'preact-router/Match'
 import AsyncRoute from 'preact-async-route'
 
-import PageWrapper from '@components/pageWrapper/pageWrapper'
-import Nav from '@components/nav/nav'
+import PageWrapper from '@components/pageWrapper~'
+import Nav from '@components/nav~'
+import Space from '@components/space~'
 
 import prefetch from '@utils/prefetch'
 
@@ -38,17 +39,27 @@ const routes = [
         title: 'Главная',
         getComponent: GetHome,
         showInNav: true
-    },
-    {
+    }, {
         path: '/about/',
         title: 'Обо мне',
         getComponent: GetAbout,
         showInNav: true
-    },
-    {
+    }, {
+        path: '/projects/',
+        title: 'Проекты',
+        showInNav: true
+    }, {
+        path: '/skills/',
+        title: 'Навыки',
+        showInNav: true
+    }, {
+        path: '/contact/',
+        title: 'Контакты',
+        showInNav: true
+    }, {
         path: '/project/:title/',
         getComponent: GetProject,
-    },
+    }
 ]
 
 const mainRoutes = routes.filter(route => route.showInNav)
@@ -58,7 +69,7 @@ const Main = () => {
         <PageWrapper>
             <Match path="/">{
                 ({ matches }) => matches || (
-                    <Nav routes={mainRoutes} />                
+                    <Space bottom='m'> <Nav routes={mainRoutes} /> </Space>
                 ) 
             } </Match>
 

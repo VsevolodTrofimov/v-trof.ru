@@ -1,12 +1,12 @@
 import { h, Component } from 'preact'
 import _curry from 'lodash.curry'
 
-import Link from '@components/link/link' 
+import Link from '@components/link~' 
 import align from '@utils/align'
 import prefetch from '@utils/prefetch'
 
 import Story from './story/story'
-import HeroesWithTrails from './heroesWithTrails/heroesWithTrails'
+import HeroesWithTrails from './heroesWithTrails~'
 
 import styles from './home.sass'
 
