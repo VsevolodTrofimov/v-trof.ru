@@ -10,28 +10,29 @@ const converter = new showdown.Converter()
 
 
 
-const link = (config, projectFiles) => new Promise((resolve, reject) => {
+const link = (config, projectFiles) => {
     const compiledProject = projectFiles.reduce((project, file) => {
         project[file.propName] = file.body
         return project
     }, {})
 
-    resolve(Object.assign(compiledProject, config))
-})
+    return Object.assign(compiledProject, config)
+}
 
 
-const compileChunk = filePath => fs.readFile(filePath, 'utf8').then(data => new Promise((resolve, reject) => {
-    let propName = R.last(filePath.split('-')).replace('.md', '')
+const compileChunk = async filePath => {
+    const data = await fs.readFile(filePath, 'utf8')
+    const propName = R.last(filePath.split('-')).replace('.md', '')
 
-    resolve({propName, body: converter.makeHtml(data)})
-}))
+    return {propName, body: converter.makeHtml(data)}
+}
 
 
-const compileProject = dir => fs.readdir(dir).then(files => new Promise((resolve, reject) => { 
-    let config
+const compileProject = async dir => { 
     const toFullPath = chunk => path.join(dir, chunk)
 
-    const compiledFiles = files
+    const files = await fs.readdir(dir)
+    const filesCompiled = files
                         .filter(R.endsWith('.md'))
                         .map(R.pipe(toFullPath, compileChunk))
     
@@ -39,14 +40,12 @@ const compileProject = dir => fs.readdir(dir).then(files => new Promise((resolve
                         .filter(R.endsWith('.json'))
                         .map(R.pipe(toFullPath, fs.readJson))
 
-    Promise.all(configs)
-        .then(configs => {
-            config = Object.assign(...configs)
-            return Promise.all(compiledFiles)
-        })
-        .then(compiledFiles => link(config, compiledFiles))
-        .then(resolve)
-}))
+    const config = Object.assign(... await Promise.all(configs))
+    
+    const compiledFiles = await Promise.all(filesCompiled)
+    
+    return link(config, compiledFiles)
+}
 
 
 
