@@ -20,13 +20,12 @@ const GetHome = () => {
 }
 
 const GetAbout = () => {
-    // prefetch('/data/home')
     return System.import(/* webpackChunkName: 'about' */ '@pages/about/about.js')
         .then(module => module.default)
 }
 
-const GetProject = () => {
-    // prefetch('/data/home')
+const GetProject = (url, cb, props) => {
+    prefetch('/data/project/' + props.url)
     return System.import(/* webpackChunkName: 'project' */ '@pages/project/project.js')
         .then(module => module.default)
 }
@@ -57,7 +56,7 @@ const routes = [
         title: 'Контакты',
         showInNav: true
     }, {
-        path: '/project/:title/',
+        path: '/project/:url/',
         getComponent: GetProject,
     }
 ]

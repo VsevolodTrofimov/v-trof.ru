@@ -1,30 +1,44 @@
 import { h, Component } from 'preact'
 
+import prefetch from '@utils/prefetch'
+
 import Card from '@components/card~'
 import Space from '@components/space~'
 
-import Overview from './postComponents/overview~'
-import Tech from './postComponents/Tech~'
+import pure from './postComponents/pure~'
+
+import styles from './project.sass'
 
 const order = [
     {
         field: 'links',
     }, {
         field: 'overview',
-        component: Overview
+        component: pure('Описание', 'overview')
     }, {
         field: 'tech',
-        component: Tech
+        component: pure('Стек', 'tech')
+    }, {
+        field: 'arch',
+        component: pure('Архитектура', 'arch')
     }, {
         field: 'role',
+        component: pure('Моя роль', 'role')
     }, {
         field: 'uncommon',
+        component: pure('Необычные решения', 'uncommon')
     }, {
         field: 'takeaways',
+        component: pure('Takeaways', 'takeaways')
     }, {
-        field: 'hood',
+        field: 'good',
+        component: pure('Стоит повторить', 'good')
     }, {
         field: 'bad',
+        component: pure('Не стоило делать', 'bad')
+    }, {
+        field: 'skills',
+        component: pure('Примененные навыки', 'skills')
     }, {
         field: 'assets'
     }
@@ -36,17 +50,23 @@ export default class Project extends Component {
 
         this.state = {
             loaded: false,
-            project: {
-                title: 'Ripple.js'
-            }
+            project: {}
         }
+    }
+
+    componentWillMount() {
+        prefetch('/data/project/' + this.props.url).then(res => {            
+            return res.clone().json()
+        }).then(data => {
+            if(data) this.setState({project: data, loaded: true})
+        })
     }
 
     render() {
         const postBody = order.map(item => {
             if(this.state.project[item.field] && item.component) 
                 return (
-                    <Space top='m'>
+                    <Space top='l'>
                         {h(item.component, this.state.project)}
                     </Space>
                 )
@@ -55,9 +75,10 @@ export default class Project extends Component {
 
         return (
             <Card>
-                <h1> {this.state.project.title} </h1>
-
-                {postBody.length ? postBody : 'Загружаем...'}
+                <Space vertical='m'>
+                    <h1> {this.state.project.title} </h1>
+                    {postBody.length ? postBody : 'Загружаем...'}
+                </Space>
             </Card>
         )
     }

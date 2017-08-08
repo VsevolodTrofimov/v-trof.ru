@@ -3,6 +3,8 @@ const path = require('path')
 const fs = require('fs')
 const app = express()
 
+const compileProjects = require('./compileProjects')
+
 const pathToApp = '../Frontend/dist/'
 const pathToData = '../Common/page-data/'
 const pages = [
@@ -11,7 +13,7 @@ const pages = [
   '/about',
   '/skills',
   '/projects',
-  '/project/:title/']
+  '/project/:url/']
 
 
 app.get('/data/*', function(req, res) {
@@ -31,6 +33,8 @@ app.get(pages, function (req, res) {
 
 app.use('/static', express.static(pathToApp + '/static/'))
 
-app.listen(80, function () {
-  console.log('TMP server on port 80')
+compileProjects().then(() => {
+  app.listen(80, function () {
+    console.log('TMP server on port 80')
+  })
 })
