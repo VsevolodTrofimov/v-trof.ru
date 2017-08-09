@@ -9,33 +9,38 @@ const RuntimeAnalyzerPlugin = require('webpack-runtime-analyzer')
 const baseConfig = require('./webpack-base')
 
 const mergedConfig = webpackMerge(baseConfig, {
-  devtool: false,
+    devtool: false,
 
-  output: {
-    filename: 'static/[name]-[chunkhash].js',
-    chunkFilename: 'static/[name]-[chunkhash].js'
-  },
+    output: {
+        filename: 'static/[name]-[chunkhash].js',
+        chunkFilename: 'static/[name]-[chunkhash].js'
+    },
 
-  plugins: [
-    new WebpackCleanupPlugin(),
-    new WebpackChunkHash({algorithm: 'md5'}),
+    plugins: [
+        new WebpackCleanupPlugin(),
+        new WebpackChunkHash({algorithm: 'md5'}),
 
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      },
-      VERSION: JSON.stringify(process.env.VERSION)
-    }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+            },
+            VERSION: JSON.stringify(process.env.VERSION)
+        }),
 
-    new webpack.optimize.UglifyJsPlugin(),
-    // new BundleAnalyzerPlugin(),
-    new RuntimeAnalyzerPlugin({
-      mode: 'standalone',
-      open: false,
-      port: 333,
-      watchModeOnly: false
-    })
-  ]
+        new webpack.optimize.UglifyJsPlugin(),
+    ]
 })
+
+
+if(process.argv.indexOf('analyze') > -1) {
+    mergedConfig.plugins.push(
+        new RuntimeAnalyzerPlugin({
+            mode: 'standalone',
+            open: true,
+            port: 333,
+            watchModeOnly: false
+        })
+    )
+}
 
 module.exports = mergedConfig

@@ -5,6 +5,7 @@ import prefetch from '@utils/prefetch'
 import Card from '@components/card~'
 import Space from '@components/space~'
 
+import Links from './postComponents/links~'
 import pure from './postComponents/pure~'
 
 import styles from './project.sass'
@@ -76,7 +77,10 @@ export default class Project extends Component {
         return (
             <Card>
                 <Space vertical='m'>
-                    <h1> {this.state.project.title} </h1>
+                    <div class={styles.projectHead}>
+                        <h1> {this.state.project.title} </h1>
+                        <Links {...this.state.project.links} class={styles.projectHeadLinks} />
+                    </div>
                     {postBody.length ? postBody : 'Загружаем...'}
                 </Space>
             </Card>

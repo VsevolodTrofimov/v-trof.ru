@@ -7,6 +7,7 @@
     "serve": "set NODE_ENV=development&& cd __config__ && node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "watch": "set NODE_ENV=development&& cd __config__ && node ../node_modules/webpack/bin/webpack --w",
     "build-test": "set NODE_ENV=development&& cd __config__ && node ../node_modules/webpack/bin/webpack",
+    "build-analyze": "set NODE_ENV=production&& cd __config__ && node ../node_modules/webpack/bin/webpack --env analyze",
     "build": "set NODE_ENV=production&& cd __config__ && node ../node_modules/webpack/bin/webpack"
   },
   "author": "",

@@ -78,6 +78,12 @@ const compileAll = async () => {
     console.log(`Done in ${new Date() - start}ms \n`)
 }
 
-module.exports = compileAll
+
+const watch = () => fs.watch(pathToProjects, {recursive: true}, compileAll);
+
+module.exports = {
+    compileAll,
+    watch
+}
 
 if(process.argv[2] === 'forceCompile') compileAll()
