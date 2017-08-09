@@ -37,7 +37,7 @@ projectDataManager.compileAll().then(() => {
 
   projectDataManager.watch()
   
-  app.listen(80, function () {
+  app.listen(8080, function () {
     console.log('TMP server on port 80')
   })
 
