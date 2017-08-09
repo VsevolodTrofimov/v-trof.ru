@@ -5,6 +5,8 @@ const app = express()
 
 const projectDataManager = require('./projectDataManager')
 
+const port = 8080
+
 const pathToApp = '../Frontend/dist/'
 const pathToData = '../Common/page-data/'
 const pages = [
@@ -37,8 +39,8 @@ projectDataManager.compileAll().then(() => {
 
   projectDataManager.watch()
   
-  app.listen(8080, function () {
-    console.log('TMP server on port 80')
+  app.listen(port, function () {
+    console.log(`TMP server on port ${port}`)
   })
 
 })

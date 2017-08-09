@@ -57,7 +57,7 @@ export default class Project extends Component {
 
     componentWillMount() {
         prefetch('/data/project/' + this.props.url).then(res => {            
-            return res.clone().json()
+            if(res.status === 200) return res.clone().json()
         }).then(data => {
             if(data) this.setState({project: data, loaded: true})
         })
@@ -81,7 +81,7 @@ export default class Project extends Component {
                         <h1> {this.state.project.title} </h1>
                         <Links {...this.state.project.links} class={styles.projectHeadLinks} />
                     </div>
-                    {postBody.length ? postBody : 'Загружаем...'}
+                    {this.state.loaded ? postBody : 'Загружаем...'}
                 </Space>
             </Card>
         )

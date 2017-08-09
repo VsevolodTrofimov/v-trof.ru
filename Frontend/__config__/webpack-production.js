@@ -32,7 +32,7 @@ const mergedConfig = webpackMerge(baseConfig, {
 })
 
 
-if(process.argv.indexOf('analyze') > -1) {
+if(process.argv.indexOf('--env.analyze') > -1) {
     mergedConfig.plugins.push(
         new RuntimeAnalyzerPlugin({
             mode: 'standalone',

@@ -60,3 +60,6 @@ typings/
 
 # rempl endpoints
 .rempl_endpoint_id
+
+# npm \ yarn lockfiles
+*.lock

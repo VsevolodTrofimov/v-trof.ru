@@ -1,6 +1,6 @@
 import { h, render } from 'preact'
 import Router from 'preact-router'
-import Match from 'preact-router/Match'
+import Match from 'preact-router/match'
 import AsyncRoute from 'preact-async-route'
 
 import PageWrapper from '@components/pageWrapper~'
@@ -25,6 +25,10 @@ const GetAbout = () => {
 }
 
 const GetProject = (url, cb, props) => {
+    if(typeof props !== 'object' || ! props.url)  {
+        const splitHref = window.location.href.split('?')[0].split('/')
+        props = { url: splitHref.slice(-1)[0] || splitHref.slice(-2)[0]} //gets last chunk of url
+    }
     prefetch('/data/project/' + props.url)
     return System.import(/* webpackChunkName: 'project' */ '@pages/project/project.js')
         .then(module => module.default)
