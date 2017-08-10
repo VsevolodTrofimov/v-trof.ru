@@ -72,7 +72,7 @@ export default class HeroesWithTrails extends Component {
 
     render() {
         if(this.state.render) return (
-            <div class={styles.wrapper} style={{top: this.state.yShift}}> 
+            <div class={styles.wrapper} style={{top: this.state.scrollY}}> 
                 <div class={styles.line}>
                     <Hero y={this.state.heroY} x={this.state.heroX} />
                     <Trail y={this.state.heroY} 

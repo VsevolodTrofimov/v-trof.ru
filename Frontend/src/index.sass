@@ -16,6 +16,10 @@ body
 h2
     font-size: $font-l
 
+h3
+    font-size: $font-m
+    font-weight: normal
+
 a
     color: $color-main-dark
     font-weight: bold
@@ -24,3 +28,13 @@ a
     transition: $transition-s
     &:hover
         border-bottom-color: lighten($color-main-dark, 7%)
+
+
+@media (max-width: 500px)
+    body
+        font-size: $font-xs
+    h2
+        font-size: $font-m
+
+    h3
+        font-size: $font-s

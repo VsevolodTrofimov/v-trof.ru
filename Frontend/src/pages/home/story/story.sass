@@ -55,15 +55,14 @@
 
 .PixiContainerText
     font-family: "Open Sans"
-    font-size: 29px
+    font-size: $font-l - 1px
     text-align: center
     width: 100%
-    transition: $transition-m
-    @media (max-width: 400px)
-        font-size: 22px
+    transition: $transition-m        
 
 @media (max-width: $card-size + $space-l * 2)
     .PixiContainer
         width: 100%
-        height: auto
-        padding-bottom: $pixi-padding-outer
+    
+    .PixiContainerText
+        font-size: $font-accent

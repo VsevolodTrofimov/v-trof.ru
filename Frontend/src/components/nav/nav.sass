@@ -1,6 +1,7 @@
 @import '@utils/vars.sass'
 
 .navLink
+    display: inline-block
     margin: 0 $space-m
     font-size: $font-accent
     font-weight: bold
@@ -13,5 +14,7 @@
     &:active, &:hover 
         color: $color-main-dark
 
-    @media screen and (max-width: 600px)
+    @media screen and (max-width: 500px)
+        margin: 0 $space-s
         line-height: 2
+        font-size: $font-s

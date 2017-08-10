@@ -1,7 +1,11 @@
 @import '@utils/vars.sass'
 
 .link
+    display: inline-block
     margin-right: $space-m
     font-size: $font-accent
     &:last-child
         margin-right: 0
+
+    @media screen and (max-width: 500px)
+        font-size: $font-s
