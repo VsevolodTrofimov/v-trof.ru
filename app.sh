@@ -1,10 +1,10 @@
 NODE_ENV=development
 cd Frontend
-yarn
-yarn build
+npm install
+npm run build
 cd ..
 cd Backend
-yarn
+npm install
 pm2 delete all
 pm2 unstartup
 pm2 start tmpServer.js
