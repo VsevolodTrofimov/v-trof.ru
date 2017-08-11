@@ -27,8 +27,8 @@ module.exports = {
   output: {
     path: paths.dist,
     publicPath: '/',
-    filename: 'static/[name].js',
-    chunkFilename: 'static/[name].js'
+    filename: 'src/[name].js',
+    chunkFilename: 'src/[name].js'
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -61,12 +61,13 @@ module.exports = {
     port: 80,
     historyApiFallback: {
       rewrites: [{
-        from: /^(?!\/data\/)/,
+        from: /^(?!\/data\/|\/static\/)/,
         to: '/'
       }]
     },
     proxy: {
-      '/data': 'http://localhost:8080'
+      '/data': 'http://localhost:8080',
+      '/static': 'http://localhost:8080'
     }
   }
 }

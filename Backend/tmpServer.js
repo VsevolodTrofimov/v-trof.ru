@@ -8,7 +8,10 @@ const projectDataManager = require('./projectDataManager')
 const port = 8080
 
 const pathToApp = '../Frontend/dist/'
+const pathToSrc = '../Frontend/dist/src'
 const pathToData = '../Common/page-data/'
+const pathToStatic = '../Common/static/'
+
 const pages = [
   '/',
   'contact',
@@ -33,7 +36,8 @@ app.get(pages, function (req, res) {
   res.sendFile(path.resolve(__dirname, pathToApp, 'index.html'))
 })
 
-app.use('/static', express.static(pathToApp + '/static/'))
+app.use('/src', express.static(pathToSrc))
+app.use('/static', express.static(pathToStatic))
 
 projectDataManager.compileAll().then(() => {
 

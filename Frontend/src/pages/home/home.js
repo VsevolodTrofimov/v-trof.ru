@@ -35,14 +35,18 @@ export default class Home extends Component {
         super(props)
         this.lastStoryAct = this.lastStoryAct.bind(this)
         this.nextProject = this.nextProject.bind(this)
-        this.state = {currentProject: 0, projects: [{title: '...'}]}
+        this.state = {
+            currentProject: 0,
+            projects: [{}],
+            loaded: false
+        }
     }
 
     componentWillMount() {
         prefetch('/data/home').then(res => {    
             if(res.status === 200) return res.clone().json()
         }).then(data => {
-            if(data && data.featured) this.setState({projects: data.featured})
+            if(data && data.featured) this.setState({projects: data.featured, loaded: true})
         })
     }
 
@@ -67,6 +71,7 @@ export default class Home extends Component {
         
         reAlign()
         window.onresize = reAlign
+        document.fonts.ready.then(reAlign)
     }
 
     nextProject() {
@@ -121,11 +126,15 @@ export default class Home extends Component {
                 <HeroesWithTrails ref={el => this.heroesWithTrailsLower = el} />
 
                 <Story ref={story => this.story = story} onEnd={this.lastStoryAct} />
-                <main class={styles.texts}>
+
+
+                <main class={styles.texts + (this.state.loaded ? '' : ' ' + styles.textsLoading)}>
                     <UpperText ref={el => this.upperText = el} 
                                project={this.state.projects[this.state.currentProject]} />
                     <LowerText ref={el => this.lowerText = el} />
                 </main>
+
+
             </div>
         );
     }

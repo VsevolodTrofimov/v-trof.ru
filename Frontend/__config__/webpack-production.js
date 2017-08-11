@@ -12,8 +12,8 @@ const mergedConfig = webpackMerge(baseConfig, {
     devtool: false,
 
     output: {
-        filename: 'static/[name]-[chunkhash].js',
-        chunkFilename: 'static/[name]-[chunkhash].js'
+        filename: 'src/[name]-[chunkhash].js',
+        chunkFilename: 'src/[name]-[chunkhash].js'
     },
 
     plugins: [

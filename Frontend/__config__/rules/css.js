@@ -6,6 +6,7 @@ module.exports = function(__dirname) {
   const cssLoader = {
     loader: 'css-loader',
     options: {
+      url: false,
       import: false,
       modules: true,
       localIdentName: '[hash:base64:5]',
