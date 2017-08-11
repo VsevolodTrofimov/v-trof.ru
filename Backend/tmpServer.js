@@ -3,13 +3,13 @@ const path = require('path')
 const fs = require('fs')
 const app = express()
 
-const projectDataManager = require('./projectDataManager')
+const dataManager = require('./dataManager')
 
 const port = 8080
 
 const pathToApp = '../Frontend/dist/'
 const pathToSrc = '../Frontend/dist/src'
-const pathToData = '../Common/page-data/'
+const pathToData = '../Common/compiled/'
 const pathToStatic = '../Common/static/'
 
 const pages = [
@@ -39,9 +39,9 @@ app.get(pages, function (req, res) {
 app.use('/src', express.static(pathToSrc))
 app.use('/static', express.static(pathToStatic))
 
-projectDataManager.compileAll().then(() => {
+dataManager.compile().then(() => {
 
-  projectDataManager.watch()
+  dataManager.watch()
   
   app.listen(port, function () {
     console.log(`TMP server on port ${port}`)

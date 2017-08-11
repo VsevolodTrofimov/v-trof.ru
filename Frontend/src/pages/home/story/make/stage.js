@@ -76,7 +76,7 @@ export default function makeStage(props) {
     })
 
     let arrowTop = makeLine({
-        y: props.circleR * 2 - props.arrowSize,
+        y: props.circleR * 2 - props.arrowSize + 1,
         x: props.width/2 + props.circleR - props.arrowSize,
         
         lineStyle: props.lineStyle,
@@ -86,7 +86,7 @@ export default function makeStage(props) {
     })
 
     let arrowBottom = makeLine({
-        y: props.circleR * 2 + props.arrowSize,
+        y: props.circleR * 2 + props.arrowSize - 1,
         x: props.width/2 + props.circleR - props.arrowSize,
         
         lineStyle: props.lineStyle,

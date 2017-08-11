@@ -64,3 +64,5 @@ typings/
 # npm \ yarn lockfiles
 *.lock
 Common/page-data/project/
+
+Common/compiled/
