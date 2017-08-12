@@ -25,9 +25,12 @@ app.get('/data/*', function(req, res) {
   const dataPath = req.url.slice(req.url.indexOf('/data/') + 6) + '.json'
   res.append('Content-Type', 'application/json')
   
-  fs.readFile(
-    path.resolve(__dirname, pathToData, dataPath), 'utf-8',
-    (err, data) => {res.write(data); res.end();}
+  fs.readFile(path.resolve(__dirname, pathToData, dataPath), 'utf-8', (err, data) => {
+      if(err) {console.error(err); return}
+      
+      res.write(data)
+      res.end();
+    }
   )
 })
 

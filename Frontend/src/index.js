@@ -34,6 +34,12 @@ const GetProject = (url, cb, props) => {
         .then(module => module.default)
 }
 
+const GetProjects = () => {
+    prefetch('/data/projects')
+    return System.import(/* webpackChunkName: 'projects' */ '@pages/projects/projects.js')
+        .then(module => module.default)
+}
+
 
 //routing
 const routes = [
@@ -50,6 +56,7 @@ const routes = [
     }, {
         path: '/projects/',
         title: 'Проекты',
+        getComponent: GetProjects,
         showInNav: true
     }, {
         path: '/skills/',

@@ -37,7 +37,7 @@ export default class Home extends Component {
         this.nextProject = this.nextProject.bind(this)
         this.state = {
             currentProject: 0,
-            projects: [{}],
+            projects: [{title: '...', url: '/projects/'}],
             loaded: false
         }
     }
