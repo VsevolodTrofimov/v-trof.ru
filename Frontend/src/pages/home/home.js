@@ -24,7 +24,7 @@ let UpperText = (props) => (
 
 let LowerText = () => (
     <div class={styles.textBlock}>
-        Ах да, Я &mdash; <Link url='/about/'> Трофимов Всеволод </Link> <br />
+        Ах да, Я &mdash; <Link url='/about/'> Всеволод Трофимов </Link> <br />
         Frontend разработчик & UX дизайнер <br />
         из Санкт-Петербурга.
     </div>

@@ -40,6 +40,11 @@ const GetProjects = () => {
         .then(module => module.default)
 }
 
+const GetContacts = () => {
+    return System.import(/* webpackChunkName: 'contact' */ '@pages/contact/contact.js')
+        .then(module => module.default)
+}
+
 
 //routing
 const routes = [
@@ -61,10 +66,11 @@ const routes = [
     }, {
         path: '/skills/',
         title: 'Навыки',
-        showInNav: true
+        showInNav: false
     }, {
         path: '/contact/',
         title: 'Контакты',
+        getComponent: GetContacts,
         showInNav: true
     }, {
         path: '/project/:url/',

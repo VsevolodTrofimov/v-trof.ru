@@ -1,5 +1,6 @@
 @import '@utils/fonts.sass'
 @import '@utils/vars.sass'
+
 body, html
     margin: 0
     padding: 0
@@ -14,7 +15,7 @@ body
     margin: 0
 
 h2
-    font-size: $font-l
+    font-size: $font-l + 1px //issue with clear sans in 4K
 
 h3
     font-size: $font-m
@@ -28,9 +29,6 @@ a
     transition: $transition-s
     &:hover
         border-bottom-color: lighten($color-main-dark, 7%)
-
-.defouc
-    display: none
 
 
 @media (max-width: 500px)

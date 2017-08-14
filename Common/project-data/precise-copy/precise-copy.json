@@ -1,0 +1,9 @@
+{
+    "title": "Precise copy",
+    "url": "precise-copy",
+    "links": {
+        "source": "https://github.com/VsevolodTrofimov/precise-copy"
+    },
+    "description": "Библиотка для частичного deep-copy объекта, помогает жить с редаксом",
+    "featured": false
+}

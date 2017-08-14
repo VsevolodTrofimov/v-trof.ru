@@ -4,15 +4,18 @@ import prefetch from '@utils/prefetch'
 
 import Card from '@components/card~'
 import Space from '@components/space~'
+import MainBlock from '@components/mainBlock~'
 
 import styles from './projects.sass'
 
 const ProjectItem = props => {
     return (
-        <a href={props.url} class={styles.projectItem}>
-            <h2> {props.title} </h2>
-            <p> { props.description } </p>
-        </a>
+        <MainBlock>
+            <a href={props.url} class={styles.projectItem}>
+                <h2> {props.title} </h2>
+                <p> { props.description } </p>
+            </a>
+        </MainBlock>
     )
 } 
 

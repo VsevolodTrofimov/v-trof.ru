@@ -1,0 +1,9 @@
+{
+    "title": "universal-alias-loader",
+    "url": "u-a-l",
+    "links": {
+        "source": "https://github.com/VsevolodTrofimov/universal-alias-loader"
+    },
+    "description": "Универсальный alias loader для webpack",
+    "featured": true
+}

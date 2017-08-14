@@ -4,6 +4,7 @@ import prefetch from '@utils/prefetch'
 
 import Card from '@components/card~'
 import Space from '@components/space~'
+import MainBlock from '@components/mainBlock~'
 
 import Links from './postComponents/links~'
 import pure from './postComponents/pure~'
@@ -68,7 +69,7 @@ export default class Project extends Component {
             if(this.state.project[item.field] && item.component) 
                 return (
                     <Space top='l'>
-                        {h(item.component, this.state.project)}
+                        <MainBlock> {h(item.component, this.state.project)} </MainBlock>
                     </Space>
                 )
             return null 
