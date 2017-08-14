@@ -10,8 +10,8 @@ import styles from './projects.sass'
 
 const ProjectItem = props => {
     return (
-        <MainBlock>
-            <a href={props.url} class={styles.projectItem}>
+        <MainBlock class={styles.projectItem}>
+            <a href={props.url} class={styles.projectItemLink}>
                 <h2> {props.title} </h2>
                 <p> { props.description } </p>
             </a>

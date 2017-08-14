@@ -35,7 +35,6 @@ app.get('/data/*', function(req, res) {
 })
 
 app.get(pages, function (req, res) {
-  console.log('proxy', req.url)
   res.append('Cache-Control', 'no-cache')
   res.sendFile(path.resolve(__dirname, pathToApp, 'index.html'))
 })

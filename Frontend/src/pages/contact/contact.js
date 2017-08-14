@@ -19,7 +19,7 @@ const data = [{
     value: "+7 906 242-77-33"
 }, {
     icon: <CodeIcon />,
-    value: "VsevolodTrofimov",
+    value: "vsevolodtrofimov",
     link: "https://github.com/VsevolodTrofimov"
 }]
 

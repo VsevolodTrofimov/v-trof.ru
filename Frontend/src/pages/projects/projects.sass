@@ -1,12 +1,14 @@
 @import '@utils/vars.sass'
 
 .projectItem
+    transition: $transition-s
+    &:hover
+        border-color: $color-main-dark
+
+.projectItemLink
     display: block
 
     border-bottom: 0
 
     font-weight: normal
     color: $color-black
-
-    &:hover
-        border-color: $color-main-dark

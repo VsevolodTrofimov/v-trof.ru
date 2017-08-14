@@ -22,5 +22,5 @@ export default function Space(props) {
     for(side of ['top', 'right', 'bottom', 'left']) 
         if(props[side]) styles['margin' + capitalize(side)] = spaces[props[side]] 
 
-    return <div style={styles}> {props.children} </div>
+    return <div style={styles} class={props.class}> {props.children} </div>
 }
