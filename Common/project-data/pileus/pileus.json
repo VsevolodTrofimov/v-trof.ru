@@ -2,6 +2,7 @@
     "title": "Pileus",
     "url": "pileus",
     "links": {
+        "demo": "https://pileus.v-trof.ru",
         "source": "https://github.com/VsevolodTrofimov/P-app"
     },
     "description": "Система упрвления обучением, провалившийся стартап",
