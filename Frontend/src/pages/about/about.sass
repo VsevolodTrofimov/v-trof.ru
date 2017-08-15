@@ -3,11 +3,22 @@
 .photoRow
     display: flex
     flex-direction: row
+    align-items: flex-start
 
 .photo
     display: block
     border-radius: $border-radius-l
+    flex: 0
 
 .photoText
     flex: 1
     margin-left: $space-m
+
+
+@media (max-width: 600px)
+    .photoRow
+        flex-direction: column
+        align-items: center
+
+    .photoText
+        margin:  $space-m 0 0 0
