@@ -14,7 +14,7 @@ const pathToStatic = '../Common/static/'
 
 const pages = [
   '/',
-  'contact',
+  '/contact',
   '/about',
   '/skills',
   '/projects',
