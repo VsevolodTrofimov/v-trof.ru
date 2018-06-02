@@ -15,10 +15,10 @@ export default function About () {
             </Card>
             <Card class={styles.photoText}>
                 <h2> Всеволод Трофимов </h2>
-                Официально — студент СПбГУ. <br /><br />
-                На деле — Frontend разработчик, интересующийся UX дизайном,
-                визуализацией данных, perception hacking и&nbsp;функциональным программированием. Свободно говорящий по-английски. <br /><br />
-                Предпочитаю, но не ограничиваюсь ES6+, preact, redux, webpack, flexbox.
+                Cтудент СПбГУ. <br /><br />
+                Frontend разработчик, интересующийся UX дизайном,
+                визуализацией данных, perception hacking. Свободно говорю по-английски. <br /><br />
+                Предпочитаю, но не ограничиваюсь ES6+, vue, vuex, webpack, flexbox.
             </Card>
         </div>
         <Space top='m'>
@@ -62,7 +62,8 @@ export default function About () {
 
                 <Space top='l' />
                 <MainBlock>
-                    С середины июля 2017 занимаюсь фрилансом<br />
+                    ... Приличное количество нормальных проектов, про которые мне влом писать на сайте, который нет нужды поддерживать. 
+                    Некоторые из них есть в оперносе на <a href='https://github.com/VsevolodTrofimov'>гитхабе</a>.
                 </MainBlock>
 
             </Card>
